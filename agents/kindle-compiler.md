@@ -1,18 +1,18 @@
 # Kindle Manuscript Compiler
 
-> **Usage:** Reference this file with `@agents/kindle-compiler.md` in Claude Code. This is the final step — all other agents must have run first. Reference all prior outputs: `@output/niche_researcher.md`, `@output/ghostwriter.md`, `@output/developmental_editor.md`, `@output/proofreader.md`, `@output/cover_designer.md`, `@output/formatter.md`, `@output/marketing_specialist.md`.
+> **Usage:** Reference this file with `@agents/kindle-compiler.md` in Claude Code. This is the final step — all other agents must have run first. Reference all prior outputs: `@output/{project-name}/niche_researcher.md`, `@output/{project-name}/ghostwriter.md`, `@output/{project-name}/developmental_editor.md`, `@output/{project-name}/proofreader.md`, `@output/{project-name}/cover_designer.md`, `@output/{project-name}/formatter.md`, `@output/{project-name}/marketing_specialist.md`.
 
 ## Dependencies
 
 ALL previous agents must complete first. Read these files:
-- `output/{project}/niche_researcher.md` — Market research and keyword strategy
-- `output/{project}/ghostwriter.md` — Book blueprint, outline, and sample chapters
-- `output/{project}/developmental_editor.md` — Structural edit report
-- `output/{project}/proofreader.md` — Polished manuscript text and edit log
-- `output/{project}/cover_designer.md` — Cover design brief
-- `output/{project}/formatter.md` — Kindle formatting specs and CSS
-- `output/{project}/marketing_specialist.md` — Launch strategy and Amazon listing copy
-- `output/{project}/chapters/` — Expanded chapters directory (from chapter expansion step)
+- `output/{project-name}/niche_researcher.md` — Market research and keyword strategy
+- `output/{project-name}/ghostwriter.md` — Book blueprint, outline, and sample chapters
+- `output/{project-name}/developmental_editor.md` — Structural edit report
+- `output/{project-name}/proofreader.md` — Polished manuscript text and edit log
+- `output/{project-name}/cover_designer.md` — Cover design brief
+- `output/{project-name}/formatter.md` — Kindle formatting specs and CSS
+- `output/{project-name}/marketing_specialist.md` — Launch strategy and Amazon listing copy
+- `output/{project-name}/chapters/` — Expanded chapters directory (from chapter expansion step)
 
 ## Your Role
 
@@ -40,7 +40,7 @@ Do NOT proceed to compilation until you have at minimum: Book Title, Author Name
 
 ### STEP 1.5: SAVE METADATA
 
-After collecting the user's metadata, save it to `output/{project}/metadata.json` in this format:
+After collecting the user's metadata, save it to `output/{project-name}/metadata.json` in this format:
 ```json
 {
   "book_title": "...",
@@ -57,7 +57,7 @@ This file is read by `compile_kindle.py` to parameterize the .docx compilation.
 
 ### STEP 2: ASSEMBLE CHAPTERS
 
-**If `output/{project}/chapters/` exists** (from the chapter expansion step):
+**If `output/{project-name}/chapters/` exists** (from the chapter expansion step):
 1. Read all chapter files (`ch01.md` through `chNN.md`) from the `chapters/` directory in numerical order
 2. Insert PART headings between chapter groups based on the ghostwriter's outline structure
 3. This is the primary content source — it contains ALL chapters, not just samples
@@ -120,7 +120,7 @@ Also output a brief **Compilation Summary** listing:
 
 ## Output
 
-Save the compiled manuscript to `output/{project}/kindle_manuscript.docx` and the compilation summary to `output/{project}/kindle_compiler.md`.
+Save the compiled manuscript to `output/{project-name}/kindle_manuscript.docx` and the compilation summary to `output/{project-name}/kindle_compiler.md`.
 
 To generate the .docx, run:
 ```bash

@@ -34,29 +34,16 @@ except ImportError:
 
 # ── Legacy Defaults (backward compatibility) ──────────────────────────────
 
-_LEGACY_DEFAULTS = {
-    "book_title": "Is AI helpful for PM, or is PM helpful for AI?",
-    "subtitle": "A Software Engineer's Guide to Upskilling Product Managers in the Vibe Coding Era",
-    "author": "Herschel J.",
+_DEFAULTS = {
+    "subtitle": "",
     "publisher": "Independently Published",
     "copyright_year": "2026",
-    "dedication": (
-        "For the product managers who asked the right questions at the right time\u2014"
-        "and the engineers who learned to teach instead of gatekeep."
-    ),
-    "about_author": (
-        "is a software engineer who got tired of being the bottleneck. After years of "
-        "building mockups at 10 PM because PMs couldn't build their own, he started "
-        "teaching them. Prompt engineering. Vibe coding. How to talk to AI tools like "
-        "a colleague instead of a magic eight ball. Within months, his PMs were "
-        "prototyping features, automating their own busywork, and shipping demos "
-        "without touching an engineer. This book is what he taught them."
-    ),
-    "also_by": [
-        "The AI-Fluent PM Workbook (Coming Soon)",
-        "The PM's Prompt Library: 50 AI Prompts for Product Work (Coming Soon)",
-    ],
+    "dedication": "",
+    "about_author": "",
+    "also_by": [],
 }
+_REQUIRED_FIELDS = ("book_title", "author")
+
 
 # Legacy markers for single-file mode
 _BODY_START_MARKER = "# PART 1: THE QUESTION"
@@ -67,28 +54,29 @@ _BODY_END_MARKER = "# About the Author"
 
 
 def load_metadata(project_dir: Path, metadata_path: Path | None = None) -> dict:
-    """Load book metadata from metadata.json or fall back to legacy defaults."""
-    # Try explicit metadata path first
-    if metadata_path and metadata_path.exists():
-        with open(metadata_path, encoding="utf-8") as f:
-            meta = json.load(f)
-        print(f"  Loaded metadata from {metadata_path}")
-        return {**_LEGACY_DEFAULTS, **meta}
+    """Load book metadata from --metadata or project_dir/metadata.json.
 
-    # Try project_dir/metadata.json
-    default_meta = project_dir / "metadata.json"
-    if default_meta.exists():
-        with open(default_meta, encoding="utf-8") as f:
-            meta = json.load(f)
-        print(f"  Loaded metadata from {default_meta}")
-        merged = {**_LEGACY_DEFAULTS, **meta}
-        # Ensure also_by is always a list
-        if not isinstance(merged.get("also_by"), list):
-            merged["also_by"] = [str(merged["also_by"])] if merged.get("also_by") else []
-        return merged
+    Exits with a clear error if no metadata file exists or required fields
+    (book_title, author) are missing — never falls back to another book's data.
+    """
+    path = metadata_path if metadata_path else project_dir / "metadata.json"
+    if not path.exists():
+        raise SystemExit(
+            f"Error: {path} not found. Create it with at least "
+            f"{', '.join(_REQUIRED_FIELDS)} (see the Kindle Compiler agent)."
+        )
+    with open(path, encoding="utf-8") as f:
+        meta = json.load(f)
+    print(f"  Loaded metadata from {path}")
 
-    print("  No metadata.json found — using legacy defaults")
-    return dict(_LEGACY_DEFAULTS)
+    missing = [k for k in _REQUIRED_FIELDS if not str(meta.get(k, "")).strip()]
+    if missing:
+        raise SystemExit(f"Error: {path} is missing required field(s): {', '.join(missing)}")
+
+    merged = {**_DEFAULTS, **meta}
+    if not isinstance(merged.get("also_by"), list):
+        merged["also_by"] = [str(merged["also_by"])] if merged.get("also_by") else []
+    return merged
 
 
 # ── Chapter Assembly ──────────────────────────────────────────────────────

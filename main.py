@@ -49,6 +49,12 @@ Examples:
     )
 
     parser.add_argument(
+        "--chapter-model",
+        default="sonnet",
+        help="Model for parallel chapter expansion via `claude -p` (default: sonnet)",
+    )
+
+    parser.add_argument(
         "--select",
         type=str,
         default=None,
@@ -89,7 +95,7 @@ def list_agents():
     print()
 
 
-async def run_pipeline(topic: str, model: str, selected: list[str] | None, verbose: bool):
+async def run_pipeline(topic: str, model: str, chapter_model: str, selected: list[str] | None, verbose: bool):
     """Run the pipeline."""
     if not ANTHROPIC_API_KEY:
         print("\n  Error: ANTHROPIC_API_KEY not set.")
@@ -125,14 +131,14 @@ async def run_pipeline(topic: str, model: str, selected: list[str] | None, verbo
         definitions.ALL_AGENTS = {k: v for k, v in original.items() if k in resolved}
         try:
             orchestrator = BookWriterOrchestrator(
-                api_key=ANTHROPIC_API_KEY, model=model, verbose=verbose,
+                api_key=ANTHROPIC_API_KEY, model=model, chapter_model=chapter_model, verbose=verbose,
             )
             await orchestrator.run(topic)
         finally:
             definitions.ALL_AGENTS = original
     else:
         orchestrator = BookWriterOrchestrator(
-            api_key=ANTHROPIC_API_KEY, model=model, verbose=verbose,
+            api_key=ANTHROPIC_API_KEY, model=model, chapter_model=chapter_model, verbose=verbose,
         )
         await orchestrator.run(topic)
 
@@ -152,7 +158,7 @@ def main():
         print("\n  Or use directly in Claude Code — see CLAUDE.md")
         sys.exit(0)
 
-    asyncio.run(run_pipeline(args.topic, args.model,
+    asyncio.run(run_pipeline(args.topic, args.model, args.chapter_model,
         [s.strip() for s in args.select.split(",")] if args.select else None,
         not args.quiet))
 

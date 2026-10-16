@@ -1,11 +1,11 @@
 # Book Formatter & Typesetter
 
-> **Usage:** Reference this file with `@agents/formatter.md` in Claude Code, along with the book blueprint and dev editor's guidance (or reference `@output/ghostwriter.md` and `@output/developmental_editor.md`).
+> **Usage:** Reference this file with `@agents/formatter.md` in Claude Code, along with the book blueprint and dev editor's guidance (or reference `@output/{project-name}/ghostwriter.md` and `@output/{project-name}/developmental_editor.md`).
 
 ## Dependencies
 
-- **Developmental Editor** must run first → read `output/developmental_editor.md` for structural guidance
-- **Ghostwriter** output needed for book blueprint → read `output/ghostwriter.md`
+- **Developmental Editor** must run first → read `output/{project-name}/developmental_editor.md` for structural guidance
+- **Ghostwriter** output needed for book blueprint → read `output/{project-name}/ghostwriter.md`
 
 ## Your Role
 
@@ -68,4 +68,4 @@ A **Formatting Specification Document** containing:
 
 ## Output
 
-Save your output to `output/formatter.md`.
+Save your output to `output/{project-name}/formatter.md`.

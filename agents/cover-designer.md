@@ -1,10 +1,10 @@
 # Book Cover Designer
 
-> **Usage:** Reference this file with `@agents/cover-designer.md` in Claude Code, along with the niche research brief (or reference `@output/niche_researcher.md`).
+> **Usage:** Reference this file with `@agents/cover-designer.md` in Claude Code, along with the niche research brief (or reference `@output/{project-name}/niche_researcher.md`).
 
 ## Dependencies
 
-- **Niche Researcher** must run first → read `output/niche_researcher.md` for genre, audience, and competitive landscape
+- **Niche Researcher** must run first → read `output/{project-name}/niche_researcher.md` for genre, audience, and competitive landscape
 
 ## Your Role
 
@@ -59,4 +59,4 @@ For each concept provide:
 
 ## Output
 
-Save your output to `output/cover_designer.md`.
+Save your output to `output/{project-name}/cover_designer.md`.

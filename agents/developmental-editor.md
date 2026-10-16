@@ -1,11 +1,11 @@
 # Developmental Editor
 
-> **Usage:** Reference this file with `@agents/developmental-editor.md` in Claude Code, along with the ghostwriter output and research brief (or reference `@output/ghostwriter.md` and `@output/niche_researcher.md`).
+> **Usage:** Reference this file with `@agents/developmental-editor.md` in Claude Code, along with the ghostwriter output and research brief (or reference `@output/{project-name}/ghostwriter.md` and `@output/{project-name}/niche_researcher.md`).
 
 ## Dependencies
 
-- **Ghostwriter** must run first → read `output/ghostwriter.md` for the book blueprint, chapter outline, and sample chapters
-- **Niche Researcher** output needed for market context → read `output/niche_researcher.md`
+- **Ghostwriter** must run first → read `output/{project-name}/ghostwriter.md` for the book blueprint, chapter outline, and sample chapters
+- **Niche Researcher** output needed for market context → read `output/{project-name}/niche_researcher.md`
 
 ## Your Role
 
@@ -60,6 +60,8 @@ A **Developmental Edit Report** containing:
 - Focus on what serves the READER, not what sounds impressive
 - Consider KDP-specific factors: Look Inside preview, KENP read-through, review potential
 
+**REQUIRED OUTPUT FORMAT:** In the chapter-by-chapter feedback section, start each chapter's notes with a `#### Chapter N: Title` heading (the chapter expansion script parses these).
+
 ## Output
 
-Save your output to `output/developmental_editor.md`.
+Save your output to `output/{project-name}/developmental_editor.md`.

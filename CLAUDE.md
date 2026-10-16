@@ -118,6 +118,27 @@ Save the compiled manuscript to `output/{project-name}/kindle_manuscript.docx`.
 ### Step 4: Full Report
 After all agents complete, combine outputs into `output/{project-name}/full_report.md`.
 
+## No/Low-Content Books (journals, planners, logs, puzzles, coloring)
+
+A separate print-focused pipeline for KDP **paperback** no/low-content books. It produces `interior.pdf`, a full-wrap `cover.pdf` (spine width and bleed computed from page count and paper), and `kdp_specs.md` — no API key needed.
+
+Trigger phrases: "I want to make a journal / planner / sudoku book / word search book / coloring book / log book".
+
+Workflow (follow in order; project folder rules from Step 0 still apply):
+1. **NLC Niche Researcher** — read `agents/nlc-niche-researcher.md` → `output/{project-name}/nlc_niche_researcher.md`
+2. **NLC Planner** — read `agents/nlc-planner.md`; run `python build_nlc.py --init output/{project-name} --type <preset> --title "<title>"`, edit `nlc_spec.json` (including original word lists / prompts / art prompts), then `python build_nlc.py output/{project-name}`
+3. **Cover Designer** (optional) — `agents/cover-designer.md` for concepts; put chosen colors/copy in the spec's `cover` block (or supply `cover.image`)
+4. **NLC Listing Writer** — `agents/nlc-listing.md` → `output/{project-name}/nlc_listing.md`
+
+```bash
+python build_nlc.py --list-types                      # presets: journal, dot_journal, sketchbook, gratitude_journal, daily_planner, weekly_planner, habit_tracker, password_log, address_book, meal_planner, recipe_book, budget_planner, blood_pressure_log, glucose_log, medication_log, mileage_log, sleep_log, reading_log, workout_log, wordsearch, sudoku, maze, coloring
+python build_nlc.py --init output/my-book --type sudoku --title "Sudoku Sprint"
+python build_nlc.py output/my-book                    # build PDFs + kdp_specs.md
+python build_nlc.py output/my-book --strict           # fail if coloring art is missing
+```
+
+Coloring books: the builder writes `coloring_prompts.md`; art must be generated or licensed separately and saved as `art/001.png`, `002.png`, … (pages show placeholders until then). Spine widths use KDP's published per-page thickness — confirm with KDP's cover calculator before upload. The CLI mode (`main.py`) does not run this pipeline.
+
 ## Agent Execution Rules
 
 When acting as an agent:
@@ -156,6 +177,9 @@ agents/
   proofreader.md            — Agent: Copy editing & style consistency
   formatter.md              — Agent: Kindle/print formatting specs
   kindle-compiler.md        — Agent: Final .docx manuscript compilation
+  nlc-niche-researcher.md   — NLC agent: market research for no/low-content books
+  nlc-planner.md            — NLC agent: interior design + nlc_spec.json schema
+  nlc-listing.md            — NLC agent: KDP listing copy
   definitions.py            — Agent system prompts (for CLI mode)
   orchestrator.py           — Parallel pipeline runner (for CLI mode)
 config/__init__.py          — Model and output settings
@@ -163,6 +187,8 @@ main.py                     — CLI entry point
 write_chapters.py           — Parallel chapter expansion via claude -p subprocesses
 compile_kindle.py           — Kindle .docx compiler (reads metadata.json + chapters/)
 diagram_renderer.py         — Generates PNG visuals from ```diagram``` blocks in chapters
+build_nlc.py                — No/low-content builder CLI (interior.pdf, cover.pdf, kdp_specs.md)
+nlc/                        — Builder package: specs.py (KDP geometry), pages.py, puzzles.py, builder.py
 output/
   book-project-1/           — Each book gets its own folder
     ghostwriter.md

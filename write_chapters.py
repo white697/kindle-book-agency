@@ -39,26 +39,26 @@ def parse_ghostwriter(text: str) -> dict:
 
     # Extract voice guide
     voice_match = re.search(
-        r"### Tone & Voice Guide\s*\n(.*?)(?=\n---|\n## \d)", text, re.DOTALL
+        r"#{2,4} Tone (?:&|and) Voice Guide[^\n]*\n(.*?)(?=\n---|\n#{2,3} \d)", text, re.DOTALL
     )
     if voice_match:
         result["voice_guide"] = voice_match.group(1).strip()
 
     # Extract blueprint section (everything from ## 1. Book Blueprint to ## 2.)
     blueprint_match = re.search(
-        r"## 1\. Book Blueprint\s*\n(.*?)(?=\n## 2\.)", text, re.DOTALL
+        r"#{2,3} 1\. Book Blueprint\s*\n(.*?)(?=\n#{2,3} 2\.)", text, re.DOTALL
     )
     if blueprint_match:
         result["blueprint"] = blueprint_match.group(1).strip()
 
     # Extract parts and chapter outlines from ## 2. Detailed Chapter Outline
     outline_match = re.search(
-        r"## 2\. Detailed Chapter Outline\s*\n(.*?)(?=\n---\s*\n## 3\.)", text, re.DOTALL
+        r"#{2,3} 2\. Detailed Chapter Outline\s*\n(.*?)(?=\n---\s*\n#{2,3} 3\.)", text, re.DOTALL
     )
     if not outline_match:
         # Fallback: try without the --- separator
         outline_match = re.search(
-            r"## 2\. Detailed Chapter Outline\s*\n(.*?)(?=\n## 3\.)", text, re.DOTALL
+            r"#{2,3} 2\. Detailed Chapter Outline\s*\n(.*?)(?=\n#{2,3} 3\.)", text, re.DOTALL
         )
 
     if outline_match:
@@ -67,7 +67,7 @@ def parse_ghostwriter(text: str) -> dict:
 
     # Extract sample chapters from ## 3. Sample Chapters
     sample_match = re.search(
-        r"## 3\. Sample Chapters\s*\n(.*?)(?=\n---\s*\n## 4\.|\n## 4\.)", text, re.DOTALL
+        r"#{2,3} 3\. Sample Chapters\s*\n(.*?)(?=\n---\s*\n#{2,3} 4\.|\n#{2,3} 4\.)", text, re.DOTALL
     )
     if sample_match:
         sample_text = sample_match.group(1)
@@ -85,7 +85,7 @@ def _parse_outline(outline_text: str, result: dict):
 
     for line in outline_text.split("\n"):
         # Match PART headings like ### PART 1: THE QUESTION (3 chapters, ~30 pages)
-        part_match = re.match(r"^### (PART \d+:.*?)(?:\s*\(.*\))?\s*$", line)
+        part_match = re.match(r"^#{2,4} (PART \d+:.*?)(?:\s*\(.*\))?\s*$", line)
         if part_match:
             # Save previous chapter if any
             if current_chapter_num is not None:
@@ -100,7 +100,7 @@ def _parse_outline(outline_text: str, result: dict):
             continue
 
         # Match chapter headings like **Chapter 1: The 9 PM Slack**
-        ch_match = re.match(r"^\*\*Chapter (\d+):\s*(.+?)\*\*\s*$", line)
+        ch_match = re.match(r"^(?:\*\*|#{3,4} )Chapter (\d+):\s*(.+?)(?:\*\*)?\s*$", line)
         if ch_match:
             # Save previous chapter
             if current_chapter_num is not None:
@@ -130,14 +130,14 @@ def _parse_outline(outline_text: str, result: dict):
 def _parse_sample_chapters(sample_text: str, result: dict):
     """Extract full sample chapter texts."""
     # Split on chapter headings like ### CHAPTER 1: ...
-    parts = re.split(r"(?=^### CHAPTER \d+:)", sample_text, flags=re.MULTILINE)
+    parts = re.split(r"(?=^#{1,3} CHAPTER \d+:)", sample_text, flags=re.MULTILINE)
     for part in parts:
-        ch_match = re.match(r"^### CHAPTER (\d+):\s*(.+)\n", part)
+        ch_match = re.match(r"^#{1,3} CHAPTER (\d+):\s*(.+)\n", part)
         if ch_match:
             ch_num = int(ch_match.group(1))
             # Convert ### CHAPTER to # Chapter for consistency
             chapter_text = re.sub(
-                r"^### CHAPTER (\d+):",
+                r"^#{1,3} CHAPTER (\d+):",
                 r"# Chapter \1:",
                 part,
                 count=1,
@@ -149,9 +149,9 @@ def parse_dev_editor(text: str) -> dict[int, str]:
     """Extract per-chapter feedback from the developmental editor output."""
     feedback = {}
     # Match sections like #### Chapter N: Title
-    parts = re.split(r"(?=^#### Chapter \d+:)", text, flags=re.MULTILINE)
+    parts = re.split(r"(?=^#{3,5} Chapter \d+:)", text, flags=re.MULTILINE)
     for part in parts:
-        ch_match = re.match(r"^#### Chapter (\d+):", part)
+        ch_match = re.match(r"^#{3,5} Chapter (\d+):", part)
         if ch_match:
             ch_num = int(ch_match.group(1))
             feedback[ch_num] = part.strip()
@@ -164,7 +164,7 @@ def extract_audience_keywords(niche_text: str) -> str:
 
     # Extract target audience persona
     persona_match = re.search(
-        r"## 3\. Target Audience Persona\s*\n(.*?)(?=\n## \d\.)",
+        r"#{2,3} 3\. Target Audience Persona\s*\n(.*?)(?=\n#{2,3} \d\.)",
         niche_text,
         re.DOTALL,
     )
@@ -173,7 +173,7 @@ def extract_audience_keywords(niche_text: str) -> str:
 
     # Extract keyword strategy
     kw_match = re.search(
-        r"## 2\. Keyword Strategy\s*\n(.*?)(?=\n## \d\.)",
+        r"#{2,3} 2\. Keyword Strategy\s*\n(.*?)(?=\n#{2,3} \d\.)",
         niche_text,
         re.DOTALL,
     )

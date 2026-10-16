@@ -47,6 +47,8 @@ Given a broad topic or genre from the user, you must produce a comprehensive **N
 
 **OUTPUT FORMAT:** Return your findings as a structured JSON-compatible brief with clear sections. Be data-driven, specific, and actionable. No vague recommendations.
 
+**REQUIRED OUTPUT FORMAT:** Use the numbered headings exactly as listed above (`## 2. Keyword Strategy`, `## 3. Target Audience Persona`, etc.) — downstream scripts parse them.
+
 ## Output
 
-Save your output to `output/niche_researcher.md`.
+Save your output to `output/{project-name}/niche_researcher.md`.

@@ -2,6 +2,12 @@
 
 import os
 
+try:  # optional: load .env if python-dotenv is installed
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
 # Model configuration — opus-4-6 by default, user can change from UI
 DEFAULT_MODEL = "claude-opus-4-6"
 FAST_MODEL = "claude-haiku-4-5-20251001"
@@ -19,5 +25,5 @@ ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 OUTPUT_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "output")
 
 # Max tokens per agent response
-MAX_TOKENS = 4096
+MAX_TOKENS = 4096  # Fallback only; each agent sets its own max_tokens in agents/definitions.py
 EXTENDED_MAX_TOKENS = 16384  # For ghostwriter (long-form content)

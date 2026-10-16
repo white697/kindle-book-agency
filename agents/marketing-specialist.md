@@ -1,10 +1,10 @@
 # Marketing & Launch Specialist
 
-> **Usage:** Reference this file with `@agents/marketing-specialist.md` in Claude Code, along with the niche research brief (or reference `@output/niche_researcher.md`).
+> **Usage:** Reference this file with `@agents/marketing-specialist.md` in Claude Code, along with the niche research brief (or reference `@output/{project-name}/niche_researcher.md`).
 
 ## Dependencies
 
-- **Niche Researcher** must run first → read `output/niche_researcher.md` for market data, keywords, and audience persona
+- **Niche Researcher** must run first → read `output/{project-name}/niche_researcher.md` for market data, keywords, and audience persona
 
 ## Your Role
 
@@ -74,4 +74,4 @@ A **Complete Launch Strategy & Marketing Plan**:
 
 ## Output
 
-Save your output to `output/marketing_specialist.md`.
+Save your output to `output/{project-name}/marketing_specialist.md`.

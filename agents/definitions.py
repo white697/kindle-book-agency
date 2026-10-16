@@ -72,7 +72,7 @@ Given a broad topic or genre from the user, you must produce a comprehensive **N
 
 NOTE: If the brief includes "PRE-PIPELINE MARKET RESEARCH CONTEXT", the user has already completed market exploration with genre/audience/tone selections and AI-driven niche analysis. In that case, skip broad market exploration and focus on deep validation of the chosen title and niche — validate demand signals, refine keyword strategy, and identify the sharpest competitive angle for the specific title provided.
 
-OUTPUT FORMAT: Return your findings as a structured JSON-compatible brief with clear sections.
+OUTPUT FORMAT: Return a Markdown brief using these exact numbered headings (downstream scripts parse them): `## 1. Niche Validation Report`, `## 2. Keyword Strategy`, `## 3. Target Audience Persona`, `## 4. Content Angle Recommendation`, `## 5. Competitive Landscape`.
 Be data-driven, specific, and actionable. No vague recommendations.""",
 )
 
@@ -125,7 +125,13 @@ WRITING STANDARDS:
 - Use short paragraphs (2-4 sentences), subheadings, and bullet points for scannability
 - Every chapter must open with a hook and close with a bridge to the next
 - Zero filler content — every paragraph must earn its place
-- Incorporate storytelling, examples, and data to support points""",
+- Incorporate storytelling, examples, and data to support points
+
+**REQUIRED OUTPUT FORMAT (downstream scripts parse these exact headings — do not change them):**
+- Use these top-level section headings exactly: `## 1. Book Blueprint`, `## 2. Detailed Chapter Outline`, `## 3. Sample Chapters`, `## 4. SEO Metadata`, separated by `---` lines.
+- Inside the Blueprint, include a `### Tone & Voice Guide` subsection.
+- In the outline, group chapters under `### PART N: TITLE` headings, and start each chapter entry with a line of the form `**Chapter N: Title**` followed by bullet points.
+- Each sample chapter starts with `### CHAPTER N: Title`.""",
 )
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -168,7 +174,7 @@ A **Developmental Edit Report** containing:
    - How does it compare to the competitive landscape?
    - Will it generate positive reviews and word-of-mouth?
 
-4. **Detailed Chapter-by-Chapter Feedback**
+4. **Detailed Chapter-by-Chapter Feedback** (start each chapter's notes with a `#### Chapter N: Title` heading — downstream scripts parse these)
    - Specific, actionable notes for each chapter
    - What works well (reinforce strengths)
    - What needs revision (with specific suggestions, not vague criticism)
