@@ -126,16 +126,19 @@ Trigger phrases: "I want to make a journal / planner / sudoku book / word search
 
 Workflow (follow in order; project folder rules from Step 0 still apply):
 1. **NLC Niche Researcher** — read `agents/nlc-niche-researcher.md` → `output/{project-name}/nlc_niche_researcher.md`
-2. **NLC Planner** — read `agents/nlc-planner.md`; run `python build_nlc.py --init output/{project-name} --type <preset> --title "<title>"`, edit `nlc_spec.json` (including original word lists / prompts / art prompts), then `python build_nlc.py output/{project-name}`
+2. **NLC Planner** (utility books) or **NLC Interior Designer** (children's / themed books: mascot, fonts, directed prompts, hidden-word puzzles; read `agents/nlc-interior-designer.md`, write `nlc_creative_brief.md` first, start from `--type kids_activity`, run `--lint`, and visually check rendered pages) — for the planner, read `agents/nlc-planner.md`; run `python build_nlc.py --init output/{project-name} --type <preset> --title "<title>"`, edit `nlc_spec.json` (including original word lists / prompts / art prompts), then `python build_nlc.py output/{project-name}`
 3. **Cover Designer** (optional) — `agents/cover-designer.md` for concepts; put chosen colors/copy in the spec's `cover` block (or supply `cover.image`)
 4. **NLC Listing Writer** — `agents/nlc-listing.md` → `output/{project-name}/nlc_listing.md`
 
 ```bash
-python build_nlc.py --list-types                      # presets: journal, dot_journal, sketchbook, gratitude_journal, daily_planner, weekly_planner, habit_tracker, password_log, address_book, meal_planner, recipe_book, budget_planner, blood_pressure_log, glucose_log, medication_log, mileage_log, sleep_log, reading_log, workout_log, wordsearch, sudoku, maze, coloring
+python build_nlc.py --list-types                      # presets: kids_activity, journal, dot_journal, sketchbook, gratitude_journal, daily_planner, weekly_planner, habit_tracker, password_log, address_book, meal_planner, recipe_book, budget_planner, blood_pressure_log, glucose_log, medication_log, mileage_log, sleep_log, reading_log, workout_log, wordsearch, sudoku, maze, coloring
 python build_nlc.py --init output/my-book --type sudoku --title "Sudoku Sprint"
 python build_nlc.py output/my-book                    # build PDFs + kdp_specs.md
 python build_nlc.py output/my-book --strict           # fail if coloring art is missing
+python build_nlc.py output/my-book --lint             # quality lint only (generic-page checks for themed books)
 ```
+
+Themed books (spec has a `theme` block) get a frame, header, mascot and speech-bubble line on every page; `art_prompts.md` lists Ideogram prompts for pages that carry `art_prompt`. Presets: `kids_activity` is the themed starter.
 
 Coloring books: the builder writes `coloring_prompts.md`; art must be generated or licensed separately and saved as `art/001.png`, `002.png`, … (pages show placeholders until then). Spine widths use KDP's published per-page thickness — confirm with KDP's cover calculator before upload. The CLI mode (`main.py`) does not run this pipeline.
 
@@ -178,7 +181,8 @@ agents/
   formatter.md              — Agent: Kindle/print formatting specs
   kindle-compiler.md        — Agent: Final .docx manuscript compilation
   nlc-niche-researcher.md   — NLC agent: market research for no/low-content books
-  nlc-planner.md            — NLC agent: interior design + nlc_spec.json schema
+  nlc-planner.md            — NLC agent: interior design + nlc_spec.json schema (utility books)
+  nlc-interior-designer.md  — NLC agent: themed kids' activity-book interiors (creative brief + themed spec)
   nlc-listing.md            — NLC agent: KDP listing copy
   definitions.py            — Agent system prompts (for CLI mode)
   orchestrator.py           — Parallel pipeline runner (for CLI mode)
@@ -188,7 +192,10 @@ write_chapters.py           — Parallel chapter expansion via claude -p subproc
 compile_kindle.py           — Kindle .docx compiler (reads metadata.json + chapters/)
 diagram_renderer.py         — Generates PNG visuals from ```diagram``` blocks in chapters
 build_nlc.py                — No/low-content builder CLI (interior.pdf, cover.pdf, kdp_specs.md)
-nlc/                        — Builder package: specs.py (KDP geometry), pages.py, puzzles.py, builder.py
+nlc/                        — Builder package: specs.py (KDP geometry), pages.py, puzzles.py, builder.py,
+                              theme.py (frame/header/mascot chrome), kidpages.py (prompt cards, doodles, reports),
+                              lint.py (quality checks), examples/ (worked themed spec)
+fonts/                      — Optional OFL .ttf files for themed books (see fonts/README.md)
 output/
   book-project-1/           — Each book gets its own folder
     ghostwriter.md

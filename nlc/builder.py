@@ -5,8 +5,12 @@ from pathlib import Path
 
 from reportlab.pdfgen import canvas
 
+import re
+
+from nlc import kidpages as K
 from nlc import pages as P
 from nlc import puzzles
+from nlc.theme import Theme, ThemedGeometry, draw_chrome
 from nlc.specs import PT, TRIMS, Geometry, cover_dims, validate, COVER_SPINE_TEXT_MIN_PAGES
 
 PRESETS = {
@@ -43,6 +47,38 @@ PRESETS = {
         "puzzles": [{"title": "Puzzle 1", "words": ["EXAMPLE", "WORDS", "GO", "HERE"]}], "solutions": True}]},
     "sudoku": {"sections": [{"type": "sudoku", "count": 100, "difficulty": "medium", "solutions": True}]},
     "maze": {"sections": [{"type": "maze", "count": 50, "cols": 22, "rows": 30, "solutions": True}]},
+    "kids_activity": {
+        "trim": "8.5x11", "page_count": 48, "pad_with": "notes",
+        "card_fields": ["Player name:", "Shirt number:", "Team name:", "My secret skill:"],
+        "theme": {
+            "mascot": {"name": "Buddy", "style": "ball_buddy"},
+            "palette": {"ink": "#1c1c1c", "tone": "#d6d6d6"},
+            "frame": "stitched", "icon": "star",
+            "fonts": {"display": "Fredoka-Bold.ttf", "body": "Nunito-Regular.ttf",
+                      "body_bold": "Nunito-Bold.ttf", "body_italic": "Nunito-Italic.ttf"},
+            "notes_title": "Buddy's Notes", "answer_line": "Peeking is allowed. Buddy won't tell.",
+            "lines": ["EDIT: a joke in your book's voice", "EDIT: a fun fact you have verified",
+                      "EDIT: a mini challenge", "EDIT: a friendly taunt", "EDIT: a pep line", "EDIT: a silly warning",
+                      "EDIT: a tip from the mascot", "EDIT: a question for the reader"]},
+        "sections": [
+            {"type": "pages", "items": [
+                {"type": "prompt", "kind": "opinion", "phase": "Warm-up", "line": "EDIT",
+                 "text": "EDIT: a specific, surprising scenario a child can answer in three sentences."},
+                {"type": "prompt", "kind": "wyr", "phase": "Warm-up", "line": "EDIT", "text": "Would you rather...",
+                 "options": ["EDIT option A", "EDIT option B"]},
+                {"type": "doodle", "phase": "Warm-up", "starter": "ball", "line": "EDIT",
+                 "text": "EDIT: a directed drawing challenge with a printed starter (boot, ball, goal, stadium, shirt, "
+                         "trophy, pitch, panels, badge, scoreboard, face)."},
+                {"type": "prompt", "kind": "ranking", "phase": "Warm-up", "line": "EDIT", "items": 5,
+                 "text": "EDIT: rank five specific things from best to worst."}]},
+            {"type": "wordsearch", "count": 1, "size": 10, "difficulty": "easy", "phase": "Warm-up", "line": "EDIT",
+             "puzzles": [{"title": "EDIT", "blurb": "EDIT: mascot speech line.",
+                          "words": ["EDIT", "ME", "WITH", "TWELVE", "THEMED", "WORDS"],
+                          "secret": {"word": "EDIT", "clue": "EDIT: a clue for the hidden word."}}], "solutions": True},
+            {"type": "maze", "count": 1, "cols": 8, "rows": 10, "collect": 3, "phase": "Warm-up", "line": "EDIT",
+             "titles": ["EDIT"], "blurbs": ["EDIT: mascot speech line."]},
+            {"type": "pages", "items": [
+                {"type": "report", "phase": "Full time", "line": "EDIT", "header": "Player Report"}]}]},
     "coloring": {"single_sided": True, "sections": [{"type": "coloring", "count": 40, "art_dir": "art"}]},
 }
 
@@ -70,55 +106,153 @@ def _task(fn, **kw):
     return (fn, kw)
 
 
+META_KEYS = {"type", "header", "title", "phase", "line", "mood", "art_prompt", "art"}
+MOODS = ["happy", "wink", "cheer", "happy", "tough"]
+
+
+def art_name(item: dict) -> str:
+    """Project-relative PNG name for a page's illustration slot (Ideogram output goes here)."""
+    if item.get("art"):
+        return item["art"]
+    words = re.sub(r"[^a-z0-9 ]", "", (item.get("title") or item.get("text") or "page").lower()).split()[:4]
+    return "art/" + ("-".join(words) or "page") + ".png"
+
+
+def collect_art_prompts(spec: dict) -> list[tuple[str, str]]:
+    """(filename, prompt) for every page item that carries an `art_prompt` (for Ideogram)."""
+    out = []
+    for sec in spec.get("sections", []):
+        for it in (sec.get("prompts") or []) + (sec.get("items") or []):
+            if isinstance(it, dict) and it.get("art_prompt"):
+                out.append((art_name(it), it["art_prompt"]))
+    return out
+
+
 def build_plan(spec: dict, base: Path, strict: bool = False) -> tuple[list, list[str]]:
     """Return ([(renderer, kwargs), ...], warnings) — one entry per interior page."""
     rng = random.Random(spec.get("seed", 1))
     warnings, plan = [], []
+    theme = Theme(spec["theme"], base) if spec.get("theme") else None
+    if theme:
+        warnings += [f"font not found, using built-in fallback: {f}" for f in theme.missing_fonts]
     meta = {k: spec.get(k, "") for k in ("title", "subtitle", "author", "publisher")}
     meta["year"] = spec.get("copyright_year", "")
+    counter = [0]
+
+    def task(fn, chrome=None, **kw):
+        if theme:
+            kw["theme"] = theme
+            if chrome is not None:
+                kw["_chrome"] = chrome
+        return (fn, kw)
+
+    def mk_chrome(sec, item, default_header, idx=0):
+        if not theme or sec.get("chrome") is False:
+            return None
+        item = item if isinstance(item, dict) else {}
+        lines = sec.get("lines")
+        line = item.get("line") or (lines[idx % len(lines)] if lines else sec.get("line")) or theme.line_for(counter[0])
+        mood = item.get("mood") or sec.get("mood") or MOODS[counter[0] % len(MOODS)]
+        counter[0] += 1
+        return {"header": item.get("header") or item.get("title") or sec.get("header") or sec.get("title")
+                or default_header, "phase": item.get("phase", sec.get("phase", "")), "line": line, "mood": mood}
+
     for fm in spec.get("front_matter", []):
-        plan.append(_task(P.REGISTRY[fm], **meta))
-    sol_blocks = []
+        if theme and fm == "title":
+            plan.append(task(K.title_page_themed, **meta))
+        elif theme and fm == "belongs_to":
+            plan.append(task(K.belongs_themed, fields=spec.get("card_fields")))
+        else:
+            plan.append(task(P.REGISTRY[fm], **meta))
+    sol_blocks: dict[str, list] = {}
     single = spec.get("single_sided", False)
+
+    def item_task(sec, raw, idx, default_type):
+        item = {"text": raw} if isinstance(raw, str) else dict(raw)
+        ityp = item.get("type", default_type)
+        opts = {k: v for k, v in item.items() if k not in META_KEYS}
+        if item.get("art_prompt") or item.get("art"):
+            opts["art"] = str(base / art_name(item))
+        if ityp in ("prompt", "prompt_card"):
+            if theme:
+                opts.setdefault("kind", "opinion")
+                return task(K.prompt_card, mk_chrome(sec, item, theme.headers.get(opts["kind"], "Challenge"), idx),
+                            **opts)
+            return task(P.prompt_page, prompt=item.get("text", ""))
+        if ityp == "doodle":
+            return task(K.doodle, mk_chrome(sec, item, "Doodle Challenge", idx), **opts)
+        if ityp == "report":
+            return task(K.report, mk_chrome(sec, item, "Player Report", idx), **opts)
+        if ityp == "notes":
+            return task(K.notes_page, mk_chrome(sec, item, "Notes", idx), **opts)
+        if ityp in P.REGISTRY:
+            opts = {k: v for k, v in opts.items() if not (theme and k == "header")}
+            return task(P.REGISTRY[ityp], mk_chrome(sec, item, item.get("header", ityp.title()), idx), **opts)
+        raise ValueError(f"Unknown page type '{ityp}'")
 
     for sec in spec["sections"]:
         t, n = sec["type"], int(sec.get("count", 1))
-        opts = {k: v for k, v in sec.items() if k not in ("type", "count", "solutions", "puzzles", "prompts")}
-        if t == "prompt":
-            for pr in sec.get("prompts", []):
-                plan.append(_task(P.prompt_page, prompt=pr, **opts))
+        opts = {k: v for k, v in sec.items() if k not in
+                ("type", "count", "solutions", "puzzles", "prompts", "items", "phase", "line", "lines", "mood",
+                 "chrome", "titles", "blurbs", "collect")}
+        if t in ("prompt", "doodle", "pages"):
+            items = sec.get("prompts") if t == "prompt" else sec.get("items")
+            for i, raw in enumerate(items or []):
+                plan.append(item_task(sec, raw, i, {"prompt": "prompt", "doodle": "doodle"}.get(t, "notes")))
+        elif t in ("report", "notes"):
+            for i in range(n):
+                plan.append(item_task(sec, dict(opts), i, t))
         elif t in P.REGISTRY:
+            if theme:
+                opts.pop("header", None)
+            default_h = sec.get("header") or sec.get("title") or t.replace("_", " ").title()
             if sec.get("alphabetical"):
                 letters = [chr(65 + i // per) for i in range(n) for per in [max(1, n // 26)]][:n]
                 letters = [min(l, "Z") for l in letters]
                 opts.pop("alphabetical")
-                plan += [_task(P.REGISTRY[t], letter=l, **opts) for l in letters]
+                plan += [task(P.REGISTRY[t], mk_chrome(sec, {}, default_h, i), letter=l, **opts)
+                         for i, l in enumerate(letters)]
             else:
-                plan += [_task(P.REGISTRY[t], **opts) for _ in range(n)]
+                plan += [task(P.REGISTRY[t], mk_chrome(sec, {}, default_h, i), **opts) for i in range(n)]
         elif t in PUZZLE_TYPES:
             items = []
             for i in range(n):
                 title = f"Puzzle {i + 1}"
+                extra = {}
                 if t == "wordsearch":
                     pz = sec.get("puzzles") or []
                     if i >= len(pz):
                         raise ValueError(f"wordsearch needs {n} entries in 'puzzles' (have {len(pz)})")
-                    data = puzzles.make_wordsearch(pz[i]["words"], sec.get("size", 15),
-                                                   sec.get("difficulty", "medium"), rng)
+                    cfg = pz[i]
+                    secret = cfg.get("secret", "")
+                    secret = secret.get("word", "") if isinstance(secret, dict) else secret
+                    data = puzzles.make_wordsearch(cfg["words"], cfg.get("size", sec.get("size", 15)),
+                                                   cfg.get("difficulty", sec.get("difficulty", "medium")), rng,
+                                                   secret=secret)
                     if data["skipped"]:
                         warnings.append(f"wordsearch {i + 1}: skipped words {data['skipped']}")
-                    title = pz[i].get("title", title)
-                    renderer = P.wordsearch_page
+                    title = cfg.get("title", title)
+                    clue = cfg.get("clue") or (cfg["secret"].get("clue", "") if isinstance(cfg.get("secret"), dict) else "")
+                    extra = {"blurb": cfg.get("blurb", ""), "clue": clue if secret else ""}
+                    renderer, item = P.wordsearch_page, cfg
                 elif t == "sudoku":
                     data = puzzles.make_sudoku(sec.get("difficulty", "medium"), rng)
-                    renderer = P.sudoku_page
+                    renderer, item = P.sudoku_page, {}
                 else:
                     data = puzzles.make_maze(sec.get("cols", 22), sec.get("rows", 30), rng)
-                    renderer = P.maze_page
-                plan.append(_task(renderer, data=data, title=title))
+                    k = int(sec.get("collect", 0))
+                    if k:
+                        path = data["path"]
+                        data["stars"] = [path[round(len(path) * (j + 1) / (k + 1))] for j in range(k)]
+                    titles, blurbs = sec.get("titles") or [], sec.get("blurbs") or []
+                    title = titles[i] if i < len(titles) else (f"{sec.get('header', 'Maze')} {i + 1}")
+                    extra = {"blurb": blurbs[i] if i < len(blurbs) else ""}
+                    renderer, item = P.maze_page, {}
+                plan.append(task(renderer, mk_chrome(sec, {**item, "title": title}, title, i), data=data,
+                                 title=title, **extra))
                 items.append((title, data))
             if sec.get("solutions", True):
-                sol_blocks.append((t, items))
+                sol_blocks.setdefault(t, []).extend(items)
         elif t == "coloring":
             art = base / sec.get("art_dir", "art")
             for i in range(n):
@@ -126,16 +260,21 @@ def build_plan(spec: dict, base: Path, strict: bool = False) -> tuple[list, list
                 img = files[0] if files else art / f"{i + 1:03d}.png"
                 if not files:
                     warnings.append(f"missing art: {img}")
-                plan.append(_task(P.coloring_page, image=str(img), strict=strict, label=f"page {i + 1}"))
+                plan.append(task(P.coloring_page, image=str(img), strict=strict, label=f"page {i + 1}"))
                 if single:
-                    plan.append(_task(P.blank))
+                    plan.append(task(P.blank))
         else:
             raise ValueError(f"Unknown section type '{t}'")
 
-    for kind, items in sol_blocks:
+    for kind, items in sol_blocks.items():
         c_, r_ = SOL_PER_PAGE[kind]
         for i in range(0, len(items), c_ * r_):
-            plan.append(_task(P.solutions_page, items=items[i:i + c_ * r_], kind=kind, cols=c_, rows=r_))
+            ch = None
+            if theme:
+                ch = {"header": spec.get("answer_header", "Answer Key"), "phase": "No peeking!",
+                      "line": theme.cfg.get("answer_line", "Stuck? It's allowed. Just don't tell the others."),
+                      "mood": "wink"}
+            plan.append(task(P.solutions_page, ch, items=items[i:i + c_ * r_], kind=kind, cols=c_, rows=r_))
 
     target = int(spec.get("page_count") or 0)
     if target and len(plan) > target:
@@ -146,8 +285,19 @@ def build_plan(spec: dict, base: Path, strict: bool = False) -> tuple[list, list
     if target % 2:
         target += 1
     pad = spec.get("pad_with", "lined")
+    pad_pages = spec.get("pad_pages") or []
+    k = 0
     while len(plan) < target:
-        plan.append(_task(P.REGISTRY[pad], header="Notes") if pad == "lined" else _task(P.REGISTRY[pad]))
+        if theme and pad in ("lined", "notes"):
+            if pad_pages:
+                fn_, kw_ = item_task({"chrome": True}, pad_pages[k % len(pad_pages)], k, "notes")
+            else:
+                fn_, kw_ = task(K.notes_page, mk_chrome({}, {}, theme.cfg.get("notes_title", "Coach's Notes"), k))
+            plan.append((fn_, {**kw_, "_pad": True}))
+            k += 1
+        else:
+            fn_, kw_ = task(P.REGISTRY[pad], header="Notes") if pad == "lined" else task(P.REGISTRY[pad])
+            plan.append((fn_, {**kw_, "_pad": True}))
     return plan, warnings
 
 
@@ -160,7 +310,13 @@ def build_interior(spec: dict, plan: list, out: Path) -> Geometry:
     c.setTitle(spec["title"])
     c.setAuthor(spec.get("author", ""))
     for i, (fn, kw) in enumerate(plan, 1):
-        fn(c, g, i, **kw)
+        kw = dict(kw)
+        chrome = kw.pop("_chrome", None)
+        if chrome is not None:
+            draw_chrome(c, g, i, kw["theme"], **chrome)
+            fn(c, ThemedGeometry(g), i, **kw)
+        else:
+            fn(c, g, i, **kw)
         c.showPage()
     c.save()
     return g

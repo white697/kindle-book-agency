@@ -1,0 +1,1298 @@
+{
+  "title": "Football Journal for Girls",
+  "subtitle": "A Football Diary & Activity Book with Match Logs, Word Searches, Mazes and Fun Prompts | Ages 6-10",
+  "author": "M. R. Nola",
+  "publisher": "Independently Published",
+  "copyright_year": "2026",
+  "trim": "8.5x11",
+  "paper": "white",
+  "bleed": false,
+  "page_count": 90,
+  "pad_with": "notes",
+  "seed": 7,
+  "front_matter": [
+    "title",
+    "copyright",
+    "belongs_to"
+  ],
+  "card_fields": [
+    "Player name:",
+    "Shirt number:",
+    "Team name:",
+    "My secret skill:"
+  ],
+  "theme": {
+    "mascot": {
+      "name": "Zippa",
+      "style": "ball_buddy"
+    },
+    "palette": {
+      "ink": "#1c1c1c",
+      "tone": "#d6d6d6"
+    },
+    "frame": "corner_arcs",
+    "icon": "star",
+    "fonts": {
+      "display": "Fredoka-Bold.ttf",
+      "body": "Nunito-Regular.ttf",
+      "body_bold": "Nunito-Bold.ttf",
+      "body_italic": "Nunito-Italic.ttf"
+    },
+    "answer_line": "Stuck? Peek. I won't tell the coach.",
+    "notes_title": "Zippa's Scouting Notes",
+    "lines": [
+      "Zippa says: footballers are made of practice and snacks.",
+      "Zippa's tip: bring a spare pair of socks. Always.",
+      "Challenge: do 5 keepy-uppies before the next page!",
+      "Fun fact: the classic football design has 32 panels.",
+      "Zippa says: you're allowed to be proud of yourself today.",
+      "Warning: this page may cause giggling.",
+      "Zippa says: nobody wins on their own.",
+      "Challenge: high-five someone before you turn the page."
+    ]
+  },
+  "pad_pages": [
+    {
+      "type": "doodle",
+      "text": "Zippa wants a new pair of boots. Design them, then give them a name that sounds like a superhero.",
+      "starter": "boot",
+      "line": "Superhero boots: strong, fast, a little bit shiny.",
+      "phase": "Notes"
+    },
+    {
+      "type": "prompt",
+      "kind": "story",
+      "text": "Zippa the ball has been kicked all the way to the moon. Write the next three sentences of the story.",
+      "line": "Moon football has bounce for days.",
+      "phase": "Notes"
+    },
+    {
+      "type": "doodle",
+      "text": "Plan a tricky free kick! Draw the wall of players, the ball's path, and where it ends up.",
+      "starter": "goal",
+      "line": "Bendy shots are the best shots.",
+      "phase": "Notes",
+      "caption": "This is called:"
+    }
+  ],
+  "cover": {
+    "bg": "#0b6e4f",
+    "fg": "#ffffff",
+    "accent": "#ffc93c",
+    "image": "art/cover_front.png",
+    "tagline": "Goals, Games & Great Big Dreams",
+    "back_description": "Calling all girls who love football! Meet Zippa, your ball-shaped coach, who is here to cheer you on all season.\n\nInside you'll find:\n- 30+ prompts that make you think, draw, rank and invent (design a trophy, make up a rule, pick your dream five-a-side)\n- Directed doodle challenges with a starting sketch already on the page\n- Post-match player reports, a Match Diary, and a Training Log\n- 8 word searches (each with a hidden secret word) and 8 mazes with stars to collect\n- Answers at the back, because even legends peek\n\nBig friendly writing lines for ages 6-10. A brilliant birthday or end-of-season gift!"
+  },
+  "sections": [
+    {
+      "type": "pages",
+      "items": [
+        {
+          "type": "prompt",
+          "kind": "opinion",
+          "text": "You've just been made manager for one whole day. Your first rule: everybody must do one silly thing before kick-off. What is the silly thing, and who has to do it first?",
+          "line": "Warm-up rule number one: laugh a lot.",
+          "phase": "Half 1: Warm-up"
+        },
+        {
+          "type": "prompt",
+          "kind": "wyr",
+          "text": "Would you rather...",
+          "line": "Both are brilliant. One is more brilliant. Choose wisely!",
+          "phase": "Half 1: Warm-up",
+          "options": [
+            "Score the winning goal, but nobody sees it happen",
+            "Score a scrappy goal in front of 50,000 cheering fans"
+          ]
+        },
+        {
+          "type": "doodle",
+          "text": "Design the boots that make you run 10% faster. Add three secret features and label each one with an arrow.",
+          "starter": "boot",
+          "line": "Fast boots need a fast name. Think big.",
+          "phase": "Half 1: Warm-up"
+        }
+      ]
+    },
+    {
+      "type": "wordsearch",
+      "count": 1,
+      "size": 10,
+      "difficulty": "easy",
+      "phase": "Half 1: Warm-up",
+      "line": "Warm legs, warm hearts, cold orange slices.",
+      "puzzles": [
+        {
+          "title": "Kick-Off Warm-Up",
+          "blurb": "Warm-up time! Find all 12 words on the list. Careful: one sneaky extra word is hiding too.",
+          "words": [
+            "BOOTS",
+            "SOCKS",
+            "BIBS",
+            "WHISTLE",
+            "CONES",
+            "BOTTLE",
+            "PITCH",
+            "LACES",
+            "SHINPADS",
+            "COACH",
+            "SPRINT",
+            "TEAM"
+          ],
+          "secret": {
+            "word": "STRETCH",
+            "clue": "What you do to your legs before a match so they don't go ouch (7 letters)."
+          }
+        }
+      ]
+    },
+    {
+      "type": "maze",
+      "count": 1,
+      "cols": 7,
+      "rows": 9,
+      "collect": 3,
+      "phase": "Half 1: Warm-up",
+      "line": "Easy peasy. Don't get too cocky.",
+      "titles": [
+        "Tunnel to the Pitch"
+      ],
+      "blurbs": [
+        "Follow the tunnel out to the pitch! Collect all 3 stars on the way."
+      ]
+    },
+    {
+      "type": "pages",
+      "items": [
+        {
+          "type": "prompt",
+          "kind": "draw",
+          "text": "Your football comes alive when everyone has gone home. Draw what it gets up to at night.",
+          "line": "Shhh. The ball is having a party.",
+          "phase": "Half 1: Warm-up",
+          "starter": "ball"
+        },
+        {
+          "type": "prompt",
+          "kind": "ranking",
+          "text": "Rank these match-day moments from best to worst: orange slices at half time, muddy knees, the team huddle, a brand new kit, the final whistle.",
+          "line": "Whatever you pick, muddy knees are undefeated.",
+          "phase": "Half 1: Warm-up",
+          "items": 5,
+          "slots": [
+            "Best ever",
+            "",
+            "",
+            "",
+            "Worst"
+          ]
+        },
+        {
+          "type": "report",
+          "line": "Take a bow. Even if you lost, you showed up. That's the first win.",
+          "phase": "Half 1: Warm-up",
+          "header": "Post-Match Player Report"
+        }
+      ]
+    },
+    {
+      "type": "log_table",
+      "count": 1,
+      "title": "Match Diary",
+      "header": "Match Diary",
+      "phase": "Half 1: Warm-up",
+      "line": "Write it down now. Future you will want to remember.",
+      "columns": [
+        "Date",
+        "Who We Played",
+        "Score",
+        "My Best Moment",
+        "Rating"
+      ],
+      "widths": [
+        1.2,
+        2,
+        1.2,
+        3.6,
+        1.3
+      ],
+      "rows": 8
+    },
+    {
+      "type": "pages",
+      "items": [
+        {
+          "type": "prompt",
+          "kind": "story",
+          "text": "The referee blows the whistle to start the match, and then every player's boots suddenly turn bright pink. Nobody knows why. You are the only one who does...",
+          "line": "Plot twist loading. Write fast!",
+          "phase": "Half 1: Warm-up"
+        },
+        {
+          "type": "doodle",
+          "text": "The ball is about to pass through this goal. Draw the goalkeeper's most ridiculous dive ever.",
+          "starter": "goal",
+          "line": "Extra points for a flying hat.",
+          "phase": "Half 1: Warm-up"
+        }
+      ]
+    },
+    {
+      "type": "wordsearch",
+      "count": 1,
+      "size": 11,
+      "difficulty": "easy",
+      "phase": "Half 1: Warm-up",
+      "line": "Chewing is not allowed during the whistle.",
+      "puzzles": [
+        {
+          "title": "Half-Time Snacks",
+          "blurb": "Refuel! Find 13 snacks. One extra word is hiding that isn't on the list.",
+          "words": [
+            "ORANGES",
+            "BANANA",
+            "WATER",
+            "GRAPES",
+            "SANDWICH",
+            "APPLE",
+            "JUICE",
+            "FLAPJACK",
+            "YOGURT",
+            "MUFFIN",
+            "RAISINS",
+            "CARROTS",
+            "PRETZEL"
+          ],
+          "secret": {
+            "word": "ENERGY",
+            "clue": "What snacks give you for the second half (6 letters)."
+          }
+        }
+      ]
+    },
+    {
+      "type": "maze",
+      "count": 1,
+      "cols": 8,
+      "rows": 10,
+      "collect": 3,
+      "phase": "Half 1: Warm-up",
+      "line": "Cones hate being hit. Be nice.",
+      "titles": [
+        "Dribble Through the Cones"
+      ],
+      "blurbs": [
+        "Dribble past the cones! Pick up 3 stars to power up your boots."
+      ]
+    },
+    {
+      "type": "pages",
+      "items": [
+        {
+          "type": "prompt",
+          "kind": "fill",
+          "text": "Fill in every gap with your own words, then draw the scene in the box!",
+          "line": "Fill the gaps, then draw the scene below!",
+          "phase": "Half 1: Warm-up",
+          "options": [
+            "On match day I wake up feeling ______. I pack my ______ and my lucky ______. When I step onto the pitch, I hear ______ and I think, 'Today I am going to ______!'"
+          ],
+          "starter": "pitch"
+        },
+        {
+          "type": "prompt",
+          "kind": "opinion",
+          "text": "Pick the loudest noise in football: the final whistle, the crowd roaring, the ball hitting the crossbar, or your friends yelling your name. Which one makes your tummy flip, and why?",
+          "line": "Crossbar clang: honourable mention.",
+          "phase": "Half 1: Warm-up"
+        }
+      ]
+    },
+    {
+      "type": "pages",
+      "items": [
+        {
+          "type": "prompt",
+          "kind": "ranking",
+          "text": "Rank these jobs on a football team from 'I'd love to do this' to 'No thank you': goalkeeper, captain, kit manager, referee, mascot in a giant costume.",
+          "line": "The kit manager secretly runs everything.",
+          "phase": "Half 1: Warm-up",
+          "items": 5,
+          "slots": [
+            "Dream job",
+            "",
+            "",
+            "",
+            "No thank you"
+          ]
+        },
+        {
+          "type": "doodle",
+          "text": "Zippa needs a goalkeeper! Draw one who is half octopus, half human, and add every arm saving a shot.",
+          "starter": "goal",
+          "line": "Eight arms. Zero excuses.",
+          "phase": "Half 1: Warm-up"
+        },
+        {
+          "type": "prompt",
+          "kind": "wyr",
+          "text": "Would you rather...",
+          "line": "Zippa would pick the bouncy ball. Zippa is biased.",
+          "phase": "Half 1: Warm-up",
+          "options": [
+            "Have a football that always bounces back to you",
+            "Have boots that let you jump twice as high"
+          ]
+        },
+        {
+          "type": "doodle",
+          "text": "Design your perfect team kit, front and back. Add a number, a pattern and one detail that makes you laugh.",
+          "starter": "shirt",
+          "line": "Stripes make you 3% faster. Probably.",
+          "phase": "Half 1: Warm-up",
+          "caption": "Our team is called:"
+        },
+        {
+          "type": "log_table",
+          "count": 1,
+          "title": "Skills Check: Kick-Off",
+          "header": "Skills Check: Kick-Off",
+          "phase": "Half 1: Warm-up",
+          "line": "Be honest. A 2 today can be a 5 by the end.",
+          "columns": [
+            "Skill",
+            "Score 1-5",
+            "Goal for next time"
+          ],
+          "widths": [
+            2.2,
+            1.4,
+            4
+          ],
+          "rows": 10,
+          "row_labels": [
+            "Dribbling",
+            "Passing",
+            "Shooting",
+            "Heading",
+            "Tackling",
+            "Juggling",
+            "Throw-ins",
+            "Goalkeeping",
+            "Teamwork",
+            "Being brave"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "log_table",
+      "count": 1,
+      "title": "Training Log",
+      "header": "Training Log",
+      "phase": "Half 1: Warm-up",
+      "line": "Even ten minutes counts. Honest.",
+      "columns": [
+        "Date",
+        "What I Practised",
+        "How It Felt",
+        "Rating"
+      ],
+      "widths": [
+        1.2,
+        4,
+        2.8,
+        1.3
+      ],
+      "rows": 9
+    },
+    {
+      "type": "pages",
+      "items": [
+        {
+          "type": "doodle",
+          "text": "Your team needs a badge! Design one that scares the other team a tiny bit but also makes them smile.",
+          "starter": "badge",
+          "line": "Badges look best with a tiny animal on them. Just saying.",
+          "phase": "Half 2: Main Match"
+        },
+        {
+          "type": "prompt",
+          "kind": "design",
+          "text": "Invent a brand-new football skill. Draw it in the box, give it a name, and say how hard it is to learn.",
+          "line": "Skill names with 'twist' in them always sound cool.",
+          "phase": "Half 2: Main Match",
+          "starter": "ball",
+          "labels": [
+            "Name it:",
+            "Hardest part:",
+            "Who can do it?"
+          ]
+        },
+        {
+          "type": "prompt",
+          "kind": "rule",
+          "text": "Make up one new rule that would make football even more fun. No rule can involve hurting anyone.",
+          "line": "If it involves silly hats, it's probably brilliant.",
+          "phase": "Half 2: Main Match",
+          "labels": [
+            "Rule name",
+            "How it works",
+            "Why it's better",
+            "What happens if you break it"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "wordsearch",
+      "count": 1,
+      "size": 12,
+      "difficulty": "easy",
+      "phase": "Half 2: Main Match",
+      "line": "Skills are just practice wearing a cape.",
+      "puzzles": [
+        {
+          "title": "Super Skills",
+          "blurb": "Skills time! 14 moves to find. Think you can spot the secret one?",
+          "words": [
+            "DRIBBLE",
+            "NUTMEG",
+            "VOLLEY",
+            "HEADER",
+            "TACKLE",
+            "JUGGLE",
+            "STEPOVER",
+            "CHIP",
+            "CURLER",
+            "CROSS",
+            "BACKHEEL",
+            "SHIELD",
+            "TRAP",
+            "FEINT"
+          ],
+          "secret": {
+            "word": "PRACTICE",
+            "clue": "The real secret behind every skill: do it again and again (8 letters)."
+          }
+        }
+      ]
+    },
+    {
+      "type": "maze",
+      "count": 1,
+      "cols": 9,
+      "rows": 12,
+      "collect": 4,
+      "phase": "Half 2: Main Match",
+      "line": "Mud is just chocolate for boots.",
+      "titles": [
+        "The Muddy Midfield"
+      ],
+      "blurbs": [
+        "Squelch! Find a way across the muddy middle and grab 4 stars."
+      ]
+    },
+    {
+      "type": "pages",
+      "items": [
+        {
+          "type": "prompt",
+          "kind": "wyr",
+          "text": "Would you rather...",
+          "line": "No wrong answers. Only funny ones.",
+          "phase": "Half 2: Main Match",
+          "options": [
+            "Play on a pitch made of jelly for one whole match",
+            "Play a match where the ball is the size of a beach ball"
+          ]
+        },
+        {
+          "type": "prompt",
+          "kind": "story",
+          "text": "Your team is losing 2-0 with five minutes left. The coach whispers a secret plan in your ear. What is it, and what happens next?",
+          "line": "Five minutes is a LONG time in football.",
+          "phase": "Half 2: Main Match"
+        },
+        {
+          "type": "doodle",
+          "text": "It's the stadium of the year 2090. Add floodlights, a roof, and one thing no stadium has today.",
+          "starter": "stadium",
+          "line": "Flying hot-dog vans are allowed.",
+          "phase": "Half 2: Main Match"
+        },
+        {
+          "type": "log_table",
+          "count": 1,
+          "title": "Training Log",
+          "header": "Training Log",
+          "phase": "Half 2: Main Match",
+          "line": "Hard days count double. Write them down too.",
+          "columns": [
+            "Date",
+            "What I Practised",
+            "How It Felt",
+            "Rating"
+          ],
+          "widths": [
+            1.2,
+            4,
+            2.8,
+            1.3
+          ],
+          "rows": 9
+        }
+      ]
+    },
+    {
+      "type": "wordsearch",
+      "count": 1,
+      "size": 12,
+      "difficulty": "medium",
+      "phase": "Half 2: Main Match",
+      "line": "Pack your boots. Pack your passport.",
+      "puzzles": [
+        {
+          "title": "Around the World",
+          "blurb": "Football travels the globe! Find 15 countries. One extra word is hiding.",
+          "words": [
+            "BRAZIL",
+            "JAPAN",
+            "ENGLAND",
+            "SPAIN",
+            "NIGERIA",
+            "CANADA",
+            "GERMANY",
+            "MEXICO",
+            "NORWAY",
+            "AUSTRALIA",
+            "SWEDEN",
+            "FRANCE",
+            "ITALY",
+            "GHANA",
+            "COLOMBIA"
+          ],
+          "secret": {
+            "word": "PLANET",
+            "clue": "Football is played all over this (6 letters)."
+          }
+        }
+      ]
+    },
+    {
+      "type": "maze",
+      "count": 1,
+      "cols": 10,
+      "rows": 13,
+      "collect": 4,
+      "phase": "Half 2: Main Match",
+      "line": "The corner flag is waiting.",
+      "titles": [
+        "Race to the Corner Flag"
+      ],
+      "blurbs": [
+        "Sprint down the wing to the corner flag! Collect 4 stars before you get there."
+      ]
+    },
+    {
+      "type": "pages",
+      "items": [
+        {
+          "type": "prompt",
+          "kind": "ranking",
+          "text": "You're picking a five-a-side team from anybody you know: friends, family, teachers, pets. Put your choices in order, starting with who plays in goal.",
+          "line": "Your goalkeeper had better be brave. Or fluffy.",
+          "phase": "Half 2: Main Match",
+          "items": 5,
+          "slots": [
+            "Goalkeeper",
+            "Defender",
+            "Midfield",
+            "Winger",
+            "Striker"
+          ]
+        },
+        {
+          "type": "prompt",
+          "kind": "opinion",
+          "text": "The ball is stuck in a tree and it's the last ball you have. Do you climb, get a grown-up, or invent a machine? Describe your brilliant plan step by step.",
+          "line": "Machines with a button are always the best answer.",
+          "phase": "Half 2: Main Match"
+        },
+        {
+          "type": "report",
+          "line": "You faced a tricky match and you kept going. That's what a real player does.",
+          "phase": "Half 2: Main Match",
+          "header": "Post-Match Player Report",
+          "fields": [
+            "Played against:",
+            "Where we played:"
+          ],
+          "ratings": [
+            "Brave tackles",
+            "Great passes",
+            "Cheering others",
+            "Keeping calm"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "wordsearch",
+      "count": 1,
+      "size": 12,
+      "difficulty": "medium",
+      "phase": "Half 2: Main Match",
+      "line": "Look closely. Mud hides in plain sight.",
+      "puzzles": [
+        {
+          "title": "Pitch Life",
+          "blurb": "Everything you see on matchday! Find all 16 words, then crack the secret one.",
+          "words": [
+            "GOALPOST",
+            "TOUCHLINE",
+            "DUGOUT",
+            "FLOODLIGHT",
+            "TURF",
+            "NET",
+            "STANDS",
+            "TUNNEL",
+            "SCOREBOARD",
+            "BENCH",
+            "CROSSBAR",
+            "MUD",
+            "PUDDLE",
+            "STUDS",
+            "CORNER",
+            "BANNER"
+          ],
+          "secret": {
+            "word": "ATMOSPHERE",
+            "clue": "The noisy, buzzy feeling when the stands are full (10 letters)."
+          }
+        }
+      ]
+    },
+    {
+      "type": "maze",
+      "count": 1,
+      "cols": 11,
+      "rows": 14,
+      "collect": 5,
+      "phase": "Half 2: Main Match",
+      "line": "Defenders are sneaky. Be sneakier.",
+      "titles": [
+        "Past the Defenders"
+      ],
+      "blurbs": [
+        "Dodge the defenders (the dead ends!) and collect 5 stars on the way to goal."
+      ]
+    },
+    {
+      "type": "log_table",
+      "count": 2,
+      "title": "Match Diary",
+      "header": "Match Diary",
+      "phase": "Half 2: Main Match",
+      "line": "Did you do something amazing? Write it before you forget.",
+      "columns": [
+        "Date",
+        "Who We Played",
+        "Score",
+        "My Best Moment",
+        "Rating"
+      ],
+      "widths": [
+        1.2,
+        2,
+        1.2,
+        3.6,
+        1.3
+      ],
+      "rows": 8
+    },
+    {
+      "type": "pages",
+      "items": [
+        {
+          "type": "doodle",
+          "text": "Draw the official team bus. Give it a slogan, a flag, and one very silly feature.",
+          "starter": "shirt",
+          "line": "The bus is the real star of the tournament.",
+          "phase": "Half 2: Main Match",
+          "caption": "Our bus slogan is:"
+        },
+        {
+          "type": "prompt",
+          "kind": "fill",
+          "text": "Finish the story of the best goal you ever saw, then sketch the moment!",
+          "line": "Every great goal story has a wobbly bit in the middle.",
+          "phase": "Half 2: Main Match",
+          "options": [
+            "The best goal I ever saw was scored by ______. It went in off the ______ and everybody ______. The crowd shouted '______!' and I felt ______."
+          ],
+          "starter": "goal"
+        },
+        {
+          "type": "prompt",
+          "kind": "story",
+          "text": "You're the new keeper. A shot is coming straight at you. In the next five seconds, anything could happen. Tell the whole story, second by second.",
+          "line": "Slow motion makes everything more dramatic.",
+          "phase": "Half 2: Main Match"
+        }
+      ]
+    },
+    {
+      "type": "pages",
+      "items": [
+        {
+          "type": "prompt",
+          "kind": "opinion",
+          "text": "Your team has won a trip anywhere in the world to play one match. Where do you go, who sits next to you on the bus, and what snack do you pack?",
+          "line": "Window seat negotiations begin now.",
+          "phase": "Half 2: Main Match"
+        },
+        {
+          "type": "prompt",
+          "kind": "story",
+          "text": "You find a golden football boot buried in the school field. When you put it on, something amazing happens on the pitch. What is it?",
+          "line": "Golden boots always have a catch.",
+          "phase": "Half 2: Main Match"
+        },
+        {
+          "type": "prompt",
+          "kind": "rule",
+          "text": "Invent a goal celebration that the whole team can do together. It needs a name and at least three moves.",
+          "line": "Cartwheels are allowed. Backflips are not.",
+          "phase": "Half 2: Main Match",
+          "labels": [
+            "Celebration name",
+            "Move 1",
+            "Move 2",
+            "Move 3"
+          ]
+        },
+        {
+          "type": "report",
+          "line": "Look at you, showing up again. Zippa is doing a victory dance for you.",
+          "phase": "Half 2: Main Match",
+          "header": "Post-Match Player Report",
+          "fields": [
+            "Played against:",
+            "The weather was:"
+          ],
+          "ratings": [
+            "Energy",
+            "Staying positive",
+            "Helping teammates",
+            "Trying new things"
+          ]
+        },
+        {
+          "type": "doodle",
+          "text": "Draw a four-panel comic about the funniest thing that ever happened at football.",
+          "starter": "panels",
+          "line": "Great comics always end with a surprise.",
+          "phase": "Half 2: Main Match",
+          "caption": "My comic is called:"
+        },
+        {
+          "type": "prompt",
+          "kind": "design",
+          "text": "Design a mascot for your team, real or invented. Draw it, name it, and give it a half-time trick.",
+          "line": "Mascots can do cartwheels. Mine cannot. Yet.",
+          "phase": "Half 2: Main Match",
+          "starter": "face",
+          "labels": [
+            "Mascot name:",
+            "Superpower:",
+            "Half-time trick:"
+          ]
+        },
+        {
+          "type": "doodle",
+          "text": "Zippa's scoreboard has gone wrong! Fill it in with the silliest match result and the team names.",
+          "starter": "scoreboard",
+          "line": "If the score is 99-98, I want to see the highlights.",
+          "phase": "Half 2: Main Match",
+          "caption": "Man of the match was:"
+        },
+        {
+          "type": "prompt",
+          "kind": "fill",
+          "text": "Finish the newspaper headline and story, then sketch the front-page photo.",
+          "line": "Journalists love a dramatic adjective.",
+          "phase": "Half 2: Main Match",
+          "options": [
+            "BREAKING NEWS: ______ SCORES ______ IN THE LAST ______ SECONDS AS FANS ______!"
+          ],
+          "starter": "scoreboard"
+        },
+        {
+          "type": "doodle",
+          "text": "Draw the view from the very top of the stadium: the pitch, the crowd, the sky, and one surprising thing flying past.",
+          "starter": "stadium",
+          "line": "Pigeons have the best seats.",
+          "phase": "Half 2: Main Match",
+          "caption": "The surprising thing is:"
+        },
+        {
+          "type": "report",
+          "line": "You've played lots of matches now. That's real experience, champion.",
+          "phase": "Half 2: Main Match",
+          "header": "Post-Match Player Report",
+          "fields": [
+            "Played against:",
+            "Where we played:"
+          ],
+          "ratings": [
+            "Brave tackles",
+            "Great passes",
+            "Cheering others",
+            "Keeping calm"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "log_table",
+      "count": 1,
+      "title": "Training Log",
+      "header": "Training Log",
+      "phase": "Half 2: Main Match",
+      "line": "Hard days count double. Write them down too.",
+      "columns": [
+        "Date",
+        "What I Practised",
+        "How It Felt",
+        "Rating"
+      ],
+      "widths": [
+        1.2,
+        4,
+        2.8,
+        1.3
+      ],
+      "rows": 9
+    },
+    {
+      "type": "wordsearch",
+      "count": 1,
+      "size": 13,
+      "difficulty": "medium",
+      "phase": "Extra Time",
+      "line": "Quiet teams lose. Loud teams giggle.",
+      "puzzles": [
+        {
+          "title": "Team Chat",
+          "blurb": "Great teams talk! Find 17 words players shout on the pitch. Spot the secret word that every team needs.",
+          "words": [
+            "PASS",
+            "SHOUT",
+            "WAVE",
+            "MOVE",
+            "SPACE",
+            "READY",
+            "MINE",
+            "LEFT",
+            "RIGHT",
+            "SQUAD",
+            "HUDDLE",
+            "TRUST",
+            "SWAP",
+            "HELP",
+            "CHEER",
+            "TURN",
+            "WELLDONE"
+          ],
+          "secret": {
+            "word": "TEAMWORK",
+            "clue": "What makes ordinary players unstoppable (8 letters)."
+          }
+        }
+      ]
+    },
+    {
+      "type": "maze",
+      "count": 1,
+      "cols": 12,
+      "rows": 16,
+      "collect": 5,
+      "phase": "Extra Time",
+      "line": "No lifts. Only legs.",
+      "titles": [
+        "Stadium Staircase Scramble"
+      ],
+      "blurbs": [
+        "Up the stairs, round the corners! Collect 5 stars before the match starts."
+      ]
+    },
+    {
+      "type": "pages",
+      "items": [
+        {
+          "type": "prompt",
+          "kind": "design",
+          "text": "Design the ultimate trophy for a tournament only your friends play in. Draw it, name it, and say what you win.",
+          "line": "Sticker prizes are valid prizes.",
+          "phase": "Extra Time",
+          "starter": "trophy",
+          "labels": [
+            "Trophy name:",
+            "Awarded for:",
+            "Prize inside:"
+          ]
+        },
+        {
+          "type": "prompt",
+          "kind": "rule",
+          "text": "Invent a ceremony for the end of every match: what does the winning team do, and what does the losing team do? Both have to be fun!",
+          "line": "Good ceremonies include a dance.",
+          "phase": "Extra Time",
+          "labels": [
+            "Ceremony name",
+            "What the winners do",
+            "What the other team does",
+            "The silliest part"
+          ]
+        },
+        {
+          "type": "prompt",
+          "kind": "ranking",
+          "text": "Rank the most important things a team needs: a good goalkeeper, a loud captain, a funny joker, a speedy winger, and a kind encourager. Who matters most? Explain with a score of 1 to 5.",
+          "line": "Plot twist: everybody matters most.",
+          "phase": "Extra Time",
+          "items": 5,
+          "slots": [
+            "Most important",
+            "",
+            "",
+            "",
+            "Still important!"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "wordsearch",
+      "count": 1,
+      "size": 14,
+      "difficulty": "medium",
+      "phase": "Extra Time",
+      "line": "Dramatic music plays in the distance.",
+      "puzzles": [
+        {
+          "title": "Match Drama",
+          "blurb": "Drama time! Find all 18 big-moment words. The secret word is what happens when you turn it all around.",
+          "words": [
+            "OFFSIDE",
+            "PENALTY",
+            "FREEKICK",
+            "YELLOWCARD",
+            "REFEREE",
+            "EXTRATIME",
+            "SHOOTOUT",
+            "WOODWORK",
+            "SCRAMBLE",
+            "OWNGOAL",
+            "HATTRICK",
+            "CLEANSHEET",
+            "DERBY",
+            "STOPPAGE",
+            "REPLAY",
+            "LASTMINUTE",
+            "CORNER",
+            "THROWIN"
+          ],
+          "secret": {
+            "word": "COMEBACK",
+            "clue": "When you're losing and then win anyway (8 letters)."
+          }
+        }
+      ]
+    },
+    {
+      "type": "maze",
+      "count": 1,
+      "cols": 13,
+      "rows": 17,
+      "collect": 6,
+      "phase": "Extra Time",
+      "line": "Quick feet. Quicker brain.",
+      "titles": [
+        "Counter-Attack!"
+      ],
+      "blurbs": [
+        "Fast break! Race across the pitch and collect 6 stars before the defenders recover."
+      ]
+    },
+    {
+      "type": "pages",
+      "items": [
+        {
+          "type": "doodle",
+          "text": "Plan your dream training session with the equipment in the picture. Draw the drills, the cones, and add one new piece of kit.",
+          "starter": "pitch",
+          "line": "Drills are better when there's music.",
+          "phase": "Extra Time",
+          "caption": "My training session is called:"
+        },
+        {
+          "type": "prompt",
+          "kind": "opinion",
+          "text": "You've been asked to give a pep talk to a younger player who is scared before their first match. What three things do you say? Write the real words.",
+          "line": "Real talk. Real power.",
+          "phase": "Extra Time"
+        },
+        {
+          "type": "prompt",
+          "kind": "wyr",
+          "text": "Would you rather...",
+          "line": "Hmmm. Hard one. Take your time.",
+          "phase": "Extra Time",
+          "options": [
+            "Win every match by one goal and never get the credit",
+            "Lose every match by one goal but be the funniest team ever"
+          ]
+        },
+        {
+          "type": "log_table",
+          "count": 1,
+          "title": "Match Diary",
+          "header": "Match Diary",
+          "phase": "Extra Time",
+          "line": "Last diary pages. Make them count.",
+          "columns": [
+            "Date",
+            "Who We Played",
+            "Score",
+            "My Best Moment",
+            "Rating"
+          ],
+          "widths": [
+            1.2,
+            2,
+            1.2,
+            3.6,
+            1.3
+          ],
+          "rows": 8
+        }
+      ]
+    },
+    {
+      "type": "wordsearch",
+      "count": 1,
+      "size": 15,
+      "difficulty": "medium",
+      "phase": "Extra Time",
+      "line": "You've come a long way. Look at that grid!",
+      "puzzles": [
+        {
+          "title": "Champion Mindset",
+          "blurb": "The final puzzle! Find all 20 champion words. The secret word is what people call you when you never give up.",
+          "words": [
+            "RESILIENT",
+            "BRAVE",
+            "DETERMINED",
+            "FOCUSED",
+            "CONFIDENT",
+            "HUMBLE",
+            "FEARLESS",
+            "LEADER",
+            "CAPTAIN",
+            "SPIRIT",
+            "GRIT",
+            "PATIENT",
+            "KIND",
+            "STRONG",
+            "CHEERFUL",
+            "PROUD",
+            "HUNGRY",
+            "RELENTLESS",
+            "TEAMMATE",
+            "CALM"
+          ],
+          "secret": {
+            "word": "LEGEND",
+            "clue": "What people call you when you never give up (6 letters)."
+          }
+        }
+      ]
+    },
+    {
+      "type": "maze",
+      "count": 1,
+      "cols": 14,
+      "rows": 18,
+      "collect": 7,
+      "phase": "Extra Time",
+      "line": "You can do hard things. This is one of them.",
+      "titles": [
+        "The Final Run"
+      ],
+      "blurbs": [
+        "The last maze! 7 stars to collect and the finish line is waiting."
+      ]
+    },
+    {
+      "type": "pages",
+      "items": [
+        {
+          "type": "prompt",
+          "kind": "opinion",
+          "text": "Somebody says girls shouldn't play football. Write the reply that would make the whole room clap.",
+          "line": "Mic drop. Optional. Very satisfying.",
+          "phase": "Extra Time"
+        },
+        {
+          "type": "doodle",
+          "text": "Design a brand-new ball that does something amazing: glows, bounces extra high, plays music... Draw it and label every feature.",
+          "starter": "ball",
+          "line": "Zippa is very jealous of this ball.",
+          "phase": "Extra Time",
+          "caption": "Name of the ball:"
+        },
+        {
+          "type": "prompt",
+          "kind": "ranking",
+          "text": "Rank what makes a great game: a nail-biting finish, lots of goals, brilliant teamwork, perfect weather, a loud crowd. Which one matters most to you?",
+          "line": "Plot twist: puddles make it better.",
+          "phase": "Extra Time",
+          "items": 5,
+          "slots": [
+            "Greatest",
+            "",
+            "",
+            "",
+            "Least"
+          ]
+        },
+        {
+          "type": "prompt",
+          "kind": "story",
+          "text": "The final whistle has blown and the score is level. A mysterious door opens in the centre circle. What's inside?",
+          "line": "Doors that appear on pitches are always suspicious.",
+          "phase": "Extra Time"
+        },
+        {
+          "type": "doodle",
+          "text": "Plan a surprise party for the team on the pitch. Draw the cake, the banners, and who jumps out of the goal.",
+          "starter": "pitch",
+          "line": "Party hats are shin-pad compatible.",
+          "phase": "Extra Time",
+          "caption": "The party is called:"
+        },
+        {
+          "type": "prompt",
+          "kind": "wyr",
+          "text": "Would you rather...",
+          "line": "Zippa can't decide. Help!",
+          "phase": "Extra Time",
+          "options": [
+            "Be the fastest runner in the world",
+            "Be the best passer in the world"
+          ]
+        },
+        {
+          "type": "prompt",
+          "kind": "draw",
+          "text": "Draw the trophy cabinet of your future self. What have you won, and where is each trophy from?",
+          "line": "Stay humble. Trophies are shiny, though.",
+          "phase": "Extra Time",
+          "starter": "trophy"
+        },
+        {
+          "type": "report",
+          "line": "You powered through extra time. Zippa has run out of confetti.",
+          "phase": "Extra Time",
+          "header": "Post-Match Player Report",
+          "fields": [
+            "Played against:",
+            "Final score notes:"
+          ],
+          "ratings": [
+            "Never giving up",
+            "Staying positive",
+            "Great teamwork",
+            "Having fun"
+          ]
+        },
+        {
+          "type": "log_table",
+          "count": 1,
+          "title": "Skills Check: Full Time",
+          "header": "Skills Check: Full Time",
+          "phase": "Extra Time",
+          "line": "Compare this with your Kick-Off scores. Look how far you've come!",
+          "columns": [
+            "Skill",
+            "Score 1-5",
+            "How I improved"
+          ],
+          "widths": [
+            2.2,
+            1.4,
+            4
+          ],
+          "rows": 10,
+          "row_labels": [
+            "Dribbling",
+            "Passing",
+            "Shooting",
+            "Heading",
+            "Tackling",
+            "Juggling",
+            "Throw-ins",
+            "Goalkeeping",
+            "Teamwork",
+            "Being brave"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "pages",
+      "items": [
+        {
+          "type": "report",
+          "line": "Season finished! You showed up, tried hard and cheered for others. Champion move.",
+          "phase": "Full Time",
+          "header": "Season Report",
+          "fields": [
+            "Our team name:",
+            "My best match:"
+          ],
+          "ratings": [
+            "Confidence",
+            "Skills",
+            "Friends made",
+            "Smiles"
+          ]
+        },
+        {
+          "type": "doodle",
+          "text": "Design your hall-of-fame banner! Draw yourself lifting a trophy, with three things you're proudest of around the edges.",
+          "starter": "trophy",
+          "line": "Banners go better with glitter. Imagine glitter.",
+          "phase": "Full Time",
+          "caption": "My hall-of-fame title:"
+        },
+        {
+          "type": "prompt",
+          "kind": "story",
+          "text": "Write your acceptance speech for winning the 'Most Brilliant Player of All Time' award. Who do you thank? What are you going to say to the crowd?",
+          "line": "Tears optional. Giggles encouraged.",
+          "phase": "Full Time"
+        },
+        {
+          "type": "prompt",
+          "kind": "opinion",
+          "text": "Look back through this book. What are you proudest of, and what is the next challenge you want to try? Write your goal and the first small step.",
+          "line": "You're a champion. Write it down!",
+          "phase": "Full Time"
+        }
+      ]
+    }
+  ]
+}

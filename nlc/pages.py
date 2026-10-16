@@ -20,6 +20,8 @@ def _stroke(c, rgb, w=0.5):
 
 def _heading(c, g, p, text, size=18):
     x0, y0, x1, y1 = g.box(p)
+    if getattr(g, "themed", False):      # themed pages get their header from the chrome
+        return y1 - 4
     c.setFillColorRGB(*BLACK)
     c.setFont(BOLD, size)
     c.drawString(x0, y1 - size, text)
@@ -250,7 +252,7 @@ def gratitude(c, g, p, **_):
         y -= h
 
 
-def log_table(c, g, p, title="Log", columns=("Date", "Notes"), widths=None, rows=None, **_):
+def log_table(c, g, p, title="Log", columns=("Date", "Notes"), widths=None, rows=None, theme=None, row_labels=None, **_):
     x0, y0, x1, y1 = g.box(p)
     top = _heading(c, g, p, title, 18) - 4
     widths = widths or [1] * len(columns)
@@ -258,17 +260,34 @@ def log_table(c, g, p, title="Log", columns=("Date", "Notes"), widths=None, rows
     xs = [x0]
     for w in widths:
         xs.append(xs[-1] + (x1 - x0) * w / tot)
-    hh = 22
+    th = getattr(g, "themed", False)
+    hh = 30 if th else 22
     _stroke(c, GREY, 0.8)
     c.setFont(BOLD, 9)
     for i, col in enumerate(columns):
-        c.rect(xs[i], top - hh, xs[i + 1] - xs[i], hh)
-        c.drawString(xs[i] + 4, top - hh + 7, col)
+        if th and theme:
+            c.setFillColorRGB(*theme.tone)
+            _stroke(c, theme.ink, 1.1)
+            c.rect(xs[i], top - hh, xs[i + 1] - xs[i], hh, stroke=1, fill=1)
+            c.setFillColorRGB(*theme.ink)
+            c.setFont(theme.bold, 11)
+            c.drawString(xs[i] + 6, top - hh + 10, col)
+        else:
+            c.rect(xs[i], top - hh, xs[i + 1] - xs[i], hh)
+            c.drawString(xs[i] + 4, top - hh + 7, col)
+    if row_labels and rows is None:
+        rows = len(row_labels)
     rh = 24 if rows is None else (top - hh - y0) / rows
-    n = int((top - hh - y0) // rh)
+    n = rows if rows else int((top - hh - y0) // rh)   # exact when rows is given (avoids float truncation)
+    if th and theme:
+        _stroke(c, theme.mid, 0.9)
     for r in range(n):
         for i in range(len(columns)):
             c.rect(xs[i], top - hh - (r + 1) * rh, xs[i + 1] - xs[i], rh)
+        if row_labels and r < len(row_labels):
+            c.setFillColorRGB(*BLACK)
+            c.setFont(theme.bold if theme else BOLD, 11)
+            c.drawString(xs[0] + 6, top - hh - (r + 1) * rh + rh / 2 - 4, row_labels[r])
 
 
 
@@ -410,21 +429,49 @@ def budget_page(c, g, p, **_):
 
 # ── Puzzles ───────────────────────────────────────────────────────────────
 
-def _draw_wordsearch(c, x, y, w, h, data, solution=False, title="", with_words=True):
+def _fonts(theme):
+    return (theme.bold, theme.body, theme.italic) if theme else (BOLD, FONT, "Helvetica-Oblique")
+
+
+def _blurb(c, theme, x, ytop, w, text):
+    """Mascot speech line above a puzzle. Returns its height."""
+    from nlc.theme import bubble, wrap
+    bf, ff, itf = _fonts(theme)
+    lines = wrap(text, itf, 11, w - 20)
+    h = len(lines) * 14 + 12
+    if theme:
+        bubble(c, theme, x, ytop - h, x + w, ytop, r=8)
+    else:
+        _stroke(c, GREY, 0.8)
+        c.roundRect(x, ytop - h, w, h, 8)
+    c.setFillColorRGB(*BLACK)
+    c.setFont(itf, 11)
+    for i, ln in enumerate(lines):
+        c.drawString(x + 10, ytop - 17 - i * 14, ln)
+    return h + 8
+
+
+def _draw_wordsearch(c, x, y, w, h, data, solution=False, title="", with_words=True,
+                     blurb="", clue="", theme=None):
     """Draw grid in box (x,y)-(x+w,y+h) (y = bottom)."""
+    bf, ff, itf = _fonts(theme)
     size = data["size"]
-    words = [pw["word"] for pw in data["placed"]]
-    words_h = 0
-    if with_words and not solution:
-        words_h = h * 0.26
-    gw = min(w, h - words_h - (24 if title else 0))
+    words = sorted(pw["word"] for pw in data["placed"] if not pw.get("secret"))
+    show_words = with_words and not solution
+    top_off = _blurb(c, theme, x, y + h - (24 if title else 0), w, blurb) if blurb and not solution else 0
+    wfs = 9 if size >= 15 else 13        # bigger word list for small grids (kids' books)
+    cols = 4 if len(words) > 12 else 3
+    per = -(-len(words) // cols) if words else 0
+    words_h = (per * wfs * 1.35 + 26) if show_words else 0
+    clue_h = 50 if (clue and show_words) else 0
+    gw = min(w, h - words_h - clue_h - (24 if title else 0) - top_off)
     cell = gw / size
     gx = x + (w - gw) / 2
-    gy = y + h - (24 if title else 0) - gw
+    gy = y + h - (24 if title else 0) - top_off - gw
     fs = max(4, cell * 0.55)
     if title:
         c.setFillColorRGB(*BLACK)
-        c.setFont(BOLD, 14 if not solution else 8)
+        c.setFont(bf, 14 if not solution else 8)
         c.drawCentredString(x + w / 2, y + h - (14 if not solution else 8), title)
     if solution:
         c.setFillColorRGB(0.85, 0.85, 0.85)
@@ -432,28 +479,43 @@ def _draw_wordsearch(c, x, y, w, h, data, solution=False, title="", with_words=T
             for (r, col) in pw["cells"]:
                 c.rect(gx + col * cell, gy + (size - 1 - r) * cell, cell, cell, stroke=0, fill=1)
     c.setFillColorRGB(*BLACK)
-    c.setFont(FONT, fs)
+    c.setFont(bf if theme else FONT, fs)
     for r in range(size):
         for col in range(size):
             c.drawCentredString(gx + (col + .5) * cell, gy + (size - 1 - r) * cell + cell * .25,
                                 data["grid"][r][col])
-    _stroke(c, GREY, 0.4 if solution else 0.8)
+    _stroke(c, theme.ink if theme else GREY, 1.4 if theme else (0.4 if solution else 0.8))
     c.rect(gx, gy, gw, gw)
-    if with_words and not solution:
-        wfs = 9 if size >= 15 else 13        # bigger word list for small grids (kids' books)
-        c.setFont(FONT, wfs)
-        words = sorted(words)
-        cols = 4 if len(words) > 12 else 3
-        per = -(-len(words) // cols)
+    if show_words:
+        c.setFont(ff, wfs)
         colw = w / cols
         for i, wd in enumerate(words):
             cx, cy = x + (i // per) * colw + 4, gy - 16 - (i % per) * wfs * 1.35
-            c.drawString(cx, cy, "☐ " + wd) if False else c.drawString(cx, cy, wd)
+            _stroke(c, theme.mid if theme else GREY, 0.7)
+            c.rect(cx, cy - 1, wfs * 0.6, wfs * 0.6)
+            c.setFillColorRGB(*BLACK)
+            c.drawString(cx + wfs * 0.6 + 5, cy, wd)
+        if clue:
+            from nlc.theme import wrap
+            by = gy - words_h - clue_h + 8
+            _stroke(c, theme.ink if theme else GREY, 1.2)
+            c.setDash(4, 3)
+            c.roundRect(x, by, w, clue_h - 6, 8)
+            c.setDash()
+            c.setFillColorRGB(*BLACK)
+            c.setFont(bf, 9.5)
+            c.drawString(x + 10, by + clue_h - 22, "SECRET WORD - it's hiding in the grid but NOT on the list!")
+            c.setFont(itf, 10)
+            c.drawString(x + 10, by + 8, clue)
+            c.setFont(bf, 10)
+            c.drawRightString(x + w - 10, by + 8, "Answer: ________________")
 
 
-def wordsearch_page(c, g, p, data=None, title="", **_):
+def wordsearch_page(c, g, p, data=None, title="", blurb="", clue="", theme=None, **_):
     x0, y0, x1, y1 = g.box(p)
-    _draw_wordsearch(c, x0, y0, x1 - x0, y1 - y0, data, False, title)
+    if theme:
+        title = ""      # the chrome header carries the title
+    _draw_wordsearch(c, x0, y0, x1 - x0, y1 - y0, data, False, title, True, blurb, clue, theme)
 
 
 def _draw_sudoku(c, x, y, w, h, data, solution=False, title=""):
@@ -488,7 +550,7 @@ def sudoku_page(c, g, p, data=None, title="", **_):
     _draw_sudoku(c, x0, y0, x1 - x0, y1 - y0, data, False, title)
 
 
-def _draw_maze(c, x, y, w, h, data, solution=False, title=""):
+def _draw_maze(c, x, y, w, h, data, solution=False, title="", theme=None):
     cols, rows = data["cols"], data["rows"]
     t = 22 if title else 0
     cell = min(w / cols, (h - t) / rows)
@@ -518,15 +580,35 @@ def _draw_maze(c, x, y, w, h, data, solution=False, title=""):
         for a, b in zip(pts, pts[1:]):
             c.line(*a, *b)
     else:
-        c.setFont(BOLD, 9)
-        c.drawString(mx, my + mh + 3, "START")
-        c.drawRightString(mx + mw, my - 11, "FINISH")
+        if theme:
+            from nlc.theme import draw_ball, icon
+            draw_ball(c, theme, mx + 9, my + mh + 11, 8)
+            c.setFillColorRGB(*BLACK)
+            c.setFont(theme.bold, 8.5)
+            c.drawString(mx + 22, my + mh + 8, "KICK OFF")
+            c.drawRightString(mx + mw - 4, my - 13, "GOAL!")
+            _stroke(c, theme.ink, 1.2)
+            c.rect(mx + mw - 54, my - 18, 18, 11)
+            for k in (4, 8, 12):
+                c.line(mx + mw - 54 + k, my - 18, mx + mw - 54 + k, my - 7)
+            c.line(mx + mw - 54, my - 12, mx + mw - 36, my - 12)
+            for (r, col) in data.get("stars", []):
+                icon(c, theme, theme.icon, mx + (col + .5) * cell, my + (rows - 1 - r + .5) * cell, cell * 0.28, True)
+        else:
+            c.setFont(BOLD, 9)
+            c.drawString(mx, my + mh + 3, "START")
+            c.drawRightString(mx + mw, my - 11, "FINISH")
     c.setLineCap(0)
 
 
-def maze_page(c, g, p, data=None, title="", **_):
+def maze_page(c, g, p, data=None, title="", blurb="", theme=None, **_):
     x0, y0, x1, y1 = g.box(p)
-    _draw_maze(c, x0, y0, x1 - x0, y1 - y0 - 6, data, False, title)
+    if theme:
+        title = ""
+    top = _blurb(c, theme, x0, y1, x1 - x0, blurb) if blurb else 0
+    # themed mazes reserve a strip above (KICK OFF label) and below (GOAL! label) the maze
+    _draw_maze(c, x0, y0 + (20 if theme else 0), x1 - x0, y1 - y0 - 6 - top - (40 if theme else 0), data, False,
+               title, theme)
 
 
 def solutions_page(c, g, p, items=None, kind="wordsearch", cols=2, rows=3, **_):

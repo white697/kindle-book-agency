@@ -16,7 +16,9 @@ import json
 import sys
 from pathlib import Path
 
-from nlc.builder import PRESETS, build_cover, build_interior, build_plan, default_spec, kdp_report
+from nlc.builder import (PRESETS, build_cover, build_interior, build_plan, collect_art_prompts, default_spec,
+                         kdp_report)
+from nlc.lint import lint_plan, lint_spec
 
 
 def main():
@@ -26,6 +28,7 @@ def main():
     ap.add_argument("--type", default="journal", help="Preset for --init")
     ap.add_argument("--title", default="Untitled", help="Title for --init")
     ap.add_argument("--strict", action="store_true", help="Fail on missing coloring art")
+    ap.add_argument("--lint", action="store_true", help="Only run the quality lint on the spec")
     ap.add_argument("--list-types", action="store_true")
     a = ap.parse_args()
 
@@ -49,8 +52,14 @@ def main():
         sys.exit(f"{spec_path} not found. Run with --init or have the NLC Planner agent write it.")
     spec = json.loads(spec_path.read_text(encoding="utf-8"))
 
+    if a.lint:
+        found = lint_spec(spec)
+        print("\n".join(f"  lint: {m}" for m in found) or "lint: clean")
+        return
+
     try:
         plan, warnings = build_plan(spec, base, strict=a.strict)
+        warnings = lint_spec(spec) + lint_plan(plan) + warnings
         g = build_interior(spec, plan, base / "interior.pdf")
         cover = build_cover(spec, len(plan), base / "cover.pdf", base)
     except (ValueError, KeyError, FileNotFoundError) as e:
@@ -63,6 +72,13 @@ def main():
             "# Coloring page art prompts\n\nSave images as art/001.png, art/002.png, ... "
             "(300 DPI, black line art on white).\n\n"
             + "\n".join(f"{i}. {p}" for i, p in enumerate(prompts, 1)) + "\n", encoding="utf-8")
+
+    art = collect_art_prompts(spec)
+    if art:
+        (base / "art_prompts.md").write_text(
+            "# Illustration prompts (Ideogram)\n\nSave each PNG at the path shown (transparent or white "
+            "background, black line art, no text). Re-run build_nlc.py to place them.\n\n"
+            + "\n".join(f"- `{n}`: {p}" for n, p in art) + "\n", encoding="utf-8")
 
     print(f"Interior: {base / 'interior.pdf'}  ({len(plan)} pages, {spec['trim']}, {spec['paper']})")
     print(f"Cover:    {base / 'cover.pdf'}  ({cover['width']} x {cover['height']} in, spine {cover['spine']} in)")

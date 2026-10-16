@@ -1,5 +1,7 @@
 # No/Low-Content Interior Planner
 
+> **Kids' books or anything needing personality** (activity books, puzzle books, themed journals): use `nlc-interior-designer.md` instead. It adds a theme (mascot, fonts, frame), directed prompt/doodle/report pages, hidden-word puzzles, and a quality lint. This planner stays the right choice for plain utility books (logs, planners, password/address books).
+
 > **Usage:** After NLC niche research. Ask Claude: "Plan the interior for my NLC book". It writes `output/{project-name}/nlc_spec.json`, which `python build_nlc.py output/{project-name}` turns into `interior.pdf`, `cover.pdf` and `kdp_specs.md`.
 
 ## Dependencies
@@ -14,7 +16,7 @@ You design the book's interior and write the build spec. You also write ALL crea
 
 1. Run `python build_nlc.py --init output/{project-name} --type <preset> --title "<title>"` (presets: `python build_nlc.py --list-types`).
 2. Edit the generated `nlc_spec.json` to match the research — title, subtitle, author, trim, paper, page_count, cover colors/copy, sections.
-3. Run `python build_nlc.py output/{project-name}` and fix any errors/warnings.
+3. Run `python build_nlc.py output/{project-name}` and fix any errors/warnings. (`--lint` checks the spec alone.)
 
 ## Spec schema
 

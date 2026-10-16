@@ -216,7 +216,7 @@ Not needed for Claude Code — it handles auth automatically.
 
 ## No/Low-Content Books
 
-Besides text books, the repo builds print-ready **no/low-content KDP paperbacks**: lined/dot journals, planners, habit and reading/workout logs, word search, sudoku, mazes, and coloring books (bring your own art). `build_nlc.py` generates the interior PDF with correct gutter margins, a full-wrap cover PDF with computed spine width, and a `kdp_specs.md` checklist. See the "No/Low-Content Books" section in `CLAUDE.md`.
+Besides text books, the repo builds print-ready **no/low-content KDP paperbacks**: lined/dot journals, planners, habit and reading/workout logs, word search, sudoku, mazes, and coloring books (bring your own art). `build_nlc.py` generates the interior PDF with correct gutter margins, a full-wrap cover PDF with computed spine width, and a `kdp_specs.md` checklist. Children's activity books get a themed design system (mascot, frame, directed prompts, hidden-word puzzles, quality lint): see `agents/nlc-interior-designer.md` and `nlc/examples/`. See the "No/Low-Content Books" section in `CLAUDE.md`.
 
 ```bash
 python build_nlc.py --init output/sudoku-sprint --type sudoku --title "Sudoku Sprint"

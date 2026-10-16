@@ -11,7 +11,8 @@ DIRS_HARD = DIRS_MED + [(0, -1), (-1, 0), (-1, -1), (1, -1), (-1, 1)]
 # ── Word search ───────────────────────────────────────────────────────────
 
 def make_wordsearch(words: list[str], size: int = 15, difficulty: str = "medium",
-                    rng: random.Random | None = None) -> dict:
+                    rng: random.Random | None = None, secret: str = "") -> dict:
+    """`secret` is placed in the grid but flagged so the page leaves it off the printed word list."""
     rng = rng or random.Random()
     dirs = {"easy": DIRS_EASY, "medium": DIRS_MED, "hard": DIRS_HARD}[difficulty]
     clean = []
@@ -19,24 +20,35 @@ def make_wordsearch(words: list[str], size: int = 15, difficulty: str = "medium"
     for w in words:
         k = re.sub(r"[^A-Z]", "", w.upper())
         (clean if 2 <= len(k) <= size else skipped).append(k or w)
-    clean = sorted(set(clean), key=len, reverse=True)
-    grid = [[""] * size for _ in range(size)]
-    placed = []
-    for w in clean:
-        for _ in range(300):
-            dr, dc = rng.choice(dirs)
-            r, c = rng.randrange(size), rng.randrange(size)
-            er, ec = r + dr * (len(w) - 1), c + dc * (len(w) - 1)
-            if not (0 <= er < size and 0 <= ec < size):
-                continue
-            cells = [(r + dr * i, c + dc * i) for i in range(len(w))]
-            if all(grid[y][x] in ("", w[i]) for i, (y, x) in enumerate(cells)):
-                for i, (y, x) in enumerate(cells):
-                    grid[y][x] = w[i]
-                placed.append({"word": w, "cells": cells})
-                break
-        else:
-            skipped.append(w)
+    secret_k = re.sub(r"[^A-Z]", "", secret.upper())
+    if secret_k and not 2 <= len(secret_k) <= size:
+        skipped.append(secret_k)
+        secret_k = ""
+    # deterministic order (longest first, then alphabetical) so builds are reproducible across runs
+    clean = [w for w in sorted(set(clean), key=lambda w: (-len(w), w)) if w != secret_k]
+    if secret_k:
+        clean.insert(0, secret_k)
+    for attempt in range(40):          # re-roll the layout until every word fits (dense grids)
+        grid = [[""] * size for _ in range(size)]
+        placed, failed = [], []
+        for w in clean:
+            for _ in range(300):
+                dr, dc = rng.choice(dirs)
+                r, c = rng.randrange(size), rng.randrange(size)
+                er, ec = r + dr * (len(w) - 1), c + dc * (len(w) - 1)
+                if not (0 <= er < size and 0 <= ec < size):
+                    continue
+                cells = [(r + dr * i, c + dc * i) for i in range(len(w))]
+                if all(grid[y][x] in ("", w[i]) for i, (y, x) in enumerate(cells)):
+                    for i, (y, x) in enumerate(cells):
+                        grid[y][x] = w[i]
+                    placed.append({"word": w, "cells": cells, **({"secret": True} if w == secret_k else {})})
+                    break
+            else:
+                failed.append(w)
+        if not failed:
+            break
+    skipped += failed
     for y in range(size):
         for x in range(size):
             if not grid[y][x]:
