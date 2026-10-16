@@ -440,13 +440,14 @@ def _draw_wordsearch(c, x, y, w, h, data, solution=False, title="", with_words=T
     _stroke(c, GREY, 0.4 if solution else 0.8)
     c.rect(gx, gy, gw, gw)
     if with_words and not solution:
-        c.setFont(FONT, 9)
+        wfs = 9 if size >= 15 else 13        # bigger word list for small grids (kids' books)
+        c.setFont(FONT, wfs)
         words = sorted(words)
         cols = 4 if len(words) > 12 else 3
         per = -(-len(words) // cols)
         colw = w / cols
         for i, wd in enumerate(words):
-            cx, cy = x + (i // per) * colw + 4, gy - 16 - (i % per) * 12
+            cx, cy = x + (i // per) * colw + 4, gy - 16 - (i % per) * wfs * 1.35
             c.drawString(cx, cy, "☐ " + wd) if False else c.drawString(cx, cy, wd)
 
 

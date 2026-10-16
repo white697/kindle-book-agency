@@ -223,9 +223,10 @@ def build_cover(spec: dict, pages: int, out: Path, base: Path) -> dict:
             by -= 21
         by -= 8
     c.setFont("Helvetica", 11)
-    for ln in simpleSplit(cv.get("back_description", ""), "Helvetica", 11, bw):
-        c.drawString(bx0, by, ln)
-        by -= 15
+    for para in cv.get("back_description", "").split("\n"):
+        for ln in (simpleSplit(para, "Helvetica", 11, bw) if para.strip() else [""]):
+            c.drawString(bx0, by, ln)
+            by -= 15
     # Barcode zone: 2.0 x 1.2 in, bottom-right of back cover
     c.setFillColorRGB(1, 1, 1)
     c.rect(B + tw_p - 0.25 * PT - 2.0 * PT, B + 0.25 * PT, 2.0 * PT, 1.2 * PT, stroke=0, fill=1)
