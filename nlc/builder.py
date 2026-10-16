@@ -23,6 +23,22 @@ PRESETS = {
         "columns": ["Title", "Author", "Started", "Finished", "Rating"], "widths": [3, 2, 1.2, 1.2, 1]}]},
     "workout_log": {"sections": [{"type": "log_table", "count": 100, "title": "Workout Log",
         "columns": ["Date", "Exercise", "Sets", "Reps", "Weight", "Notes"], "widths": [1.2, 3, 0.8, 0.8, 1, 2.5]}]},
+    "password_log": {"sections": [{"type": "password", "count": 104, "alphabetical": True}]},
+    "address_book": {"sections": [{"type": "address", "count": 104, "alphabetical": True}]},
+    "meal_planner": {"sections": [{"type": "meal_planner", "count": 52}, {"type": "grocery_list", "count": 52}]},
+    "recipe_book": {"sections": [{"type": "recipe", "count": 100}]},
+    "budget_planner": {"sections": [{"type": "budget", "count": 24}, {"type": "log_table", "count": 24,
+        "title": "Expense Tracker", "columns": ["Date", "Description", "Category", "Amount"], "widths": [1, 3, 1.6, 1.2]}]},
+    "blood_pressure_log": {"trim": "8.5x11", "sections": [{"type": "log_table", "count": 100, "title": "Blood Pressure Log",
+        "columns": ["Date", "Time", "Systolic", "Diastolic", "Pulse", "Notes"], "widths": [1.2, 1, 1, 1, 0.9, 2.5]}]},
+    "glucose_log": {"sections": [{"type": "log_table", "count": 100, "title": "Blood Sugar Log",
+        "columns": ["Date", "Fasting", "Before Meal", "After Meal", "Bedtime", "Notes"], "widths": [1.2, 1, 1.2, 1.2, 1, 2]}]},
+    "medication_log": {"sections": [{"type": "log_table", "count": 100, "title": "Medication Log",
+        "columns": ["Date", "Medication", "Dose", "Time", "Taken"], "widths": [1.2, 2.5, 1.2, 1, 0.8]}]},
+    "mileage_log": {"trim": "8.5x11", "sections": [{"type": "log_table", "count": 100, "title": "Mileage Log",
+        "columns": ["Date", "Purpose", "Start Odo", "End Odo", "Miles", "Parking/Tolls"], "widths": [1.2, 3, 1.2, 1.2, 0.9, 1.3]}]},
+    "sleep_log": {"sections": [{"type": "log_table", "count": 100, "title": "Sleep Log",
+        "columns": ["Date", "Bedtime", "Wake", "Hours", "Quality 1-5", "Notes"], "widths": [1.2, 1, 1, 0.8, 1, 2.5]}]},
     "wordsearch": {"sections": [{"type": "wordsearch", "count": 1, "size": 15, "difficulty": "medium",
         "puzzles": [{"title": "Puzzle 1", "words": ["EXAMPLE", "WORDS", "GO", "HERE"]}], "solutions": True}]},
     "sudoku": {"sections": [{"type": "sudoku", "count": 100, "difficulty": "medium", "solutions": True}]},
@@ -72,7 +88,13 @@ def build_plan(spec: dict, base: Path, strict: bool = False) -> tuple[list, list
             for pr in sec.get("prompts", []):
                 plan.append(_task(P.prompt_page, prompt=pr, **opts))
         elif t in P.REGISTRY:
-            plan += [_task(P.REGISTRY[t], **opts) for _ in range(n)]
+            if sec.get("alphabetical"):
+                letters = [chr(65 + i // per) for i in range(n) for per in [max(1, n // 26)]][:n]
+                letters = [min(l, "Z") for l in letters]
+                opts.pop("alphabetical")
+                plan += [_task(P.REGISTRY[t], letter=l, **opts) for l in letters]
+            else:
+                plan += [_task(P.REGISTRY[t], **opts) for _ in range(n)]
         elif t in PUZZLE_TYPES:
             items = []
             for i in range(n):

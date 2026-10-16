@@ -131,7 +131,7 @@ Workflow (follow in order; project folder rules from Step 0 still apply):
 4. **NLC Listing Writer** — `agents/nlc-listing.md` → `output/{project-name}/nlc_listing.md`
 
 ```bash
-python build_nlc.py --list-types                      # presets: journal, dot_journal, sketchbook, gratitude_journal, daily_planner, weekly_planner, habit_tracker, reading_log, workout_log, wordsearch, sudoku, maze, coloring
+python build_nlc.py --list-types                      # presets: journal, dot_journal, sketchbook, gratitude_journal, daily_planner, weekly_planner, habit_tracker, password_log, address_book, meal_planner, recipe_book, budget_planner, blood_pressure_log, glucose_log, medication_log, mileage_log, sleep_log, reading_log, workout_log, wordsearch, sudoku, maze, coloring
 python build_nlc.py --init output/my-book --type sudoku --title "Sudoku Sprint"
 python build_nlc.py output/my-book                    # build PDFs + kdp_specs.md
 python build_nlc.py output/my-book --strict           # fail if coloring art is missing

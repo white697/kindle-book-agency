@@ -26,6 +26,8 @@ Each section is `{"type": ..., "count": N, ...options}`:
 |------|---------|
 | `lined`, `dotted`, `grid` | `spacing` (in), `header` |
 | `blank`, `gratitude`, `daily_planner`, `weekly_planner`, `monthly_calendar` | — |
+| `password`, `address` | `alphabetical` (true = pages spread across A–Z tabs; use `count` of 26, 52 or 104) |
+| `meal_planner`, `grocery_list`, `recipe`, `budget` | — |
 | `habit_tracker` | `habits` (columns, default 7) |
 | `prompt` | `prompts`: list of strings (one page each; `count` ignored) |
 | `log_table` | `title`, `columns`, `widths` (relative), `rows` |

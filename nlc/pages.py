@@ -271,6 +271,143 @@ def log_table(c, g, p, title="Log", columns=("Date", "Notes"), widths=None, rows
             c.rect(xs[i], top - hh - (r + 1) * rh, xs[i + 1] - xs[i], rh)
 
 
+
+# ── Password / address / meal / recipe / budget ───────────────────────────
+
+def _letter_tab(c, g, p, letter):
+    if not letter:
+        return
+    x0, y0, x1, y1 = g.box(p)
+    c.setFillColorRGB(*BLACK)
+    c.setFont(BOLD, 28)
+    c.drawRightString(x1, y1 - 24, letter)
+
+
+def _entry_cards(c, g, p, title, fields, letter="", per_page=5, field_gap=18):
+    x0, y0, x1, y1 = g.box(p)
+    top = _heading(c, g, p, title, 16) - 4
+    _letter_tab(c, g, p, letter)
+    h = (top - y0) / per_page
+    for i in range(per_page):
+        ytop = top - i * h
+        _stroke(c, LIGHT, 0.8)
+        c.roundRect(x0, ytop - h + 4, x1 - x0, h - 8, 4)
+        for k, f in enumerate(fields):
+            yy = ytop - 18 - k * field_gap
+            _field(c, x0 + 6, yy, x1 - x0 - 12, f, 8)
+
+
+def password_page(c, g, p, letter="", **_):
+    _entry_cards(c, g, p, "Passwords", ["Website:", "Username / Email:", "Password:", "Notes:"], letter, 5, 17)
+
+
+def address_page(c, g, p, letter="", **_):
+    _entry_cards(c, g, p, "Address Book", ["Name:", "Address:", "Phone:", "Email:", "Birthday:"], letter, 6, 14)
+
+
+def meal_planner(c, g, p, **_):
+    x0, y0, x1, y1 = g.box(p)
+    top = _heading(c, g, p, "Weekly Meal Planner", 18)
+    _field(c, x0, top - 6, 170, "Week of:")
+    top -= 26
+    cols = ["Day", "Breakfast", "Lunch", "Dinner", "Snacks"]
+    ws = [0.9, 1.3, 1.3, 1.3, 1.0]
+    tot = sum(ws)
+    xs = [x0]
+    for w in ws:
+        xs.append(xs[-1] + (x1 - x0) * w / tot)
+    _stroke(c, GREY, 0.7)
+    c.setFillColorRGB(*BLACK)
+    c.setFont(BOLD, 8)
+    for i, col in enumerate(cols):
+        c.rect(xs[i], top - 18, xs[i + 1] - xs[i], 18)
+        c.drawCentredString((xs[i] + xs[i + 1]) / 2, top - 12, col)
+    notes_h = 110
+    rh = (top - 18 - y0 - notes_h) / 7
+    for r, day in enumerate(("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")):
+        yy = top - 18 - (r + 1) * rh
+        for i in range(5):
+            c.rect(xs[i], yy, xs[i + 1] - xs[i], rh)
+        c.setFont(BOLD, 9)
+        c.drawString(xs[0] + 4, yy + rh / 2 - 3, day)
+    c.setFont(BOLD, 10)
+    c.drawString(x0, y0 + notes_h - 14, "Notes / Prep")
+    _stroke(c, LIGHT, 0.6)
+    for k in range(1, 5):
+        c.line(x0, y0 + notes_h - 14 - k * 18, x1, y0 + notes_h - 14 - k * 18)
+
+
+def grocery_list(c, g, p, **_):
+    x0, y0, x1, y1 = g.box(p)
+    top = _heading(c, g, p, "Grocery List", 18)
+    _field(c, x0, top - 6, 150, "Store/Date:")
+    top -= 24
+    cats = ["Produce", "Dairy & Eggs", "Meat & Fish", "Pantry", "Frozen", "Other"]
+    gap = 14
+    cw, ch = (x1 - x0 - gap) / 2, (top - y0) / 3
+    for i, cat in enumerate(cats):
+        bx, by = x0 + (i % 2) * (cw + gap), top - (i // 2 + 1) * ch
+        c.setFillColorRGB(*BLACK)
+        c.setFont(BOLD, 10)
+        c.drawString(bx, by + ch - 14, cat)
+        _checkboxes(c, bx, by + ch - 32, cw, int((ch - 34) // 19), 19)
+
+
+def recipe_page(c, g, p, **_):
+    x0, y0, x1, y1 = g.box(p)
+    top = _heading(c, g, p, "Recipe", 18)
+    _field(c, x0, top - 8, x1 - x0, "Name:", 10)
+    third = (x1 - x0) / 3
+    for i, lab in enumerate(("Prep:", "Cook:", "Serves:")):
+        _field(c, x0 + i * third, top - 30, third - 8, lab, 9)
+    top -= 46
+    lw = (x1 - x0) * 0.4
+    c.setFillColorRGB(*BLACK)
+    c.setFont(BOLD, 10)
+    c.drawString(x0, top - 6, "Ingredients")
+    c.drawString(x0 + lw + 10, top - 6, "Instructions")
+    _stroke(c, LIGHT, 0.6)
+    y = top - 26
+    while y > y0 + 70:
+        c.line(x0, y, x0 + lw, y)
+        c.line(x0 + lw + 10, y, x1, y)
+        y -= 20
+    c.setFont(BOLD, 10)
+    c.drawString(x0, y0 + 56, "Notes")
+    for k in range(3):
+        c.line(x0, y0 + 38 - k * 18, x1, y0 + 38 - k * 18)
+
+
+def budget_page(c, g, p, **_):
+    x0, y0, x1, y1 = g.box(p)
+    top = _heading(c, g, p, "Monthly Budget", 18)
+    _field(c, x0, top - 6, 170, "Month:")
+    top -= 26
+    half = (x1 - x0 - 12) / 2
+
+    def table(x, y, w, title, cols, rows):
+        c.setFillColorRGB(*BLACK)
+        c.setFont(BOLD, 10)
+        c.drawString(x, y - 10, title)
+        y -= 16
+        cw = w / len(cols)
+        _stroke(c, GREY, 0.6)
+        c.setFont(BOLD, 7.5)
+        for i, col in enumerate(cols):
+            c.rect(x + i * cw, y - 16, cw, 16)
+            c.drawCentredString(x + (i + .5) * cw, y - 11, col)
+        for r in range(rows):
+            for i in range(len(cols)):
+                c.rect(x + i * cw, y - 16 - (r + 1) * 17, cw, 17)
+        return y - 16 - rows * 17
+
+    table(x0, top, half, "Income", ["Source", "Amount"], 5)
+    table(x0 + half + 12, top, half, "Savings & Goals", ["Goal", "Amount"], 5)
+    bottom = top - 16 - 16 - 5 * 17 - 14
+    rows = int((bottom - y0 - 34) // 17)
+    table(x0, bottom, x1 - x0, "Expenses / Bills", ["Category", "Due", "Budget", "Actual", "Paid"], rows)
+
+
 # ── Puzzles ───────────────────────────────────────────────────────────────
 
 def _draw_wordsearch(c, x, y, w, h, data, solution=False, title="", with_words=True):
@@ -434,4 +571,6 @@ REGISTRY = {
     "daily_planner": daily_planner, "weekly_planner": weekly_planner,
     "monthly_calendar": monthly_calendar, "habit_tracker": habit_tracker,
     "gratitude": gratitude, "log_table": log_table,
+    "password": password_page, "address": address_page, "meal_planner": meal_planner,
+    "grocery_list": grocery_list, "recipe": recipe_page, "budget": budget_page,
 }
