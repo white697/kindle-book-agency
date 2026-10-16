@@ -1,10 +1,10 @@
 # Ghostwriter
 
-> **Usage:** Reference this file with `@agents/ghostwriter.md` in Claude Code, along with the niche research brief (or reference `@output/niche_researcher.md`).
+> **Usage:** Reference this file with `@agents/ghostwriter.md` in Claude Code, along with the niche research brief (or reference `@output/{project-name}/niche_researcher.md`).
 
 ## Dependencies
 
-- **Niche Researcher** must run first → read `output/niche_researcher.md` for the research brief
+- **Niche Researcher** must run first → read `output/{project-name}/niche_researcher.md` for the research brief
 
 ## Your Role
 
@@ -51,6 +51,12 @@ A **Complete Book Outline & Sample Chapters** package:
 - Zero filler content — every paragraph must earn its place
 - Incorporate storytelling, examples, and data to support points
 
+**REQUIRED OUTPUT FORMAT (downstream scripts parse these exact headings — do not change them):**
+- Use these top-level section headings exactly: `## 1. Book Blueprint`, `## 2. Detailed Chapter Outline`, `## 3. Sample Chapters`, `## 4. SEO Metadata`, separated by `---` lines.
+- Inside the Blueprint, include a `### Tone & Voice Guide` subsection.
+- In the outline, group chapters under `### PART N: TITLE` headings, and start each chapter entry with a line of the form `**Chapter N: Title**` followed by bullet points.
+- Each sample chapter starts with `### CHAPTER N: Title`.
+
 ## Output
 
-Save your output to `output/ghostwriter.md`.
+Save your output to `output/{project-name}/ghostwriter.md`.

@@ -28,7 +28,7 @@ Follow each phase below **in order**. Do not skip phases. Save each agent's outp
 ### Phase 0: Market Research (Interactive)
 
 **Role:** Content & Niche Researcher
-**Output:** `output/niche_researcher.md`
+**Output:** `output/{project-name}/niche_researcher.md`
 
 Read `@agents/niche-researcher.md` for full instructions.
 
@@ -48,8 +48,8 @@ Run these three agents one after another. All three depend on the Phase 0 output
 
 #### 1a. Ghostwriter
 **Role:** Elite Ghostwriter
-**Input:** `output/niche_researcher.md`
-**Output:** `output/ghostwriter.md`
+**Input:** `output/{project-name}/niche_researcher.md`
+**Output:** `output/{project-name}/ghostwriter.md`
 
 Read `@agents/ghostwriter.md` for full instructions.
 
@@ -57,8 +57,8 @@ Deliver: Book blueprint, detailed chapter outline, 2 full sample chapters, SEO m
 
 #### 1b. Cover Designer
 **Role:** Book Cover Designer
-**Input:** `output/niche_researcher.md`
-**Output:** `output/cover_designer.md`
+**Input:** `output/{project-name}/niche_researcher.md`
+**Output:** `output/{project-name}/cover_designer.md`
 
 Read `@agents/cover-designer.md` for full instructions.
 
@@ -66,8 +66,8 @@ Deliver: Visual research, 3 cover concepts with color palettes and typography, t
 
 #### 1c. Marketing Specialist
 **Role:** Marketing & Launch Specialist
-**Input:** `output/niche_researcher.md`
-**Output:** `output/marketing_specialist.md`
+**Input:** `output/{project-name}/niche_researcher.md`
+**Output:** `output/{project-name}/marketing_specialist.md`
 
 Read `@agents/marketing-specialist.md` for full instructions.
 
@@ -79,8 +79,8 @@ Deliver: Pre-launch strategy, Amazon listing optimization, launch week plan, Ama
 
 #### 2. Developmental Editor
 **Role:** Senior Developmental Editor
-**Input:** `output/ghostwriter.md` + `output/niche_researcher.md`
-**Output:** `output/developmental_editor.md`
+**Input:** `output/{project-name}/ghostwriter.md` + `output/{project-name}/niche_researcher.md`
+**Output:** `output/{project-name}/developmental_editor.md`
 
 Read `@agents/developmental-editor.md` for full instructions.
 
@@ -94,8 +94,8 @@ Run these two agents one after another. Both depend on the Phase 2 output.
 
 #### 3a. Proofreader
 **Role:** Proofreader & Copy Editor
-**Input:** `output/ghostwriter.md` + `output/developmental_editor.md`
-**Output:** `output/proofreader.md`
+**Input:** `output/{project-name}/ghostwriter.md` + `output/{project-name}/developmental_editor.md`
+**Output:** `output/{project-name}/proofreader.md`
 
 Read `@agents/proofreader.md` for full instructions.
 
@@ -103,8 +103,8 @@ Deliver: Corrected manuscript text, edit log, style consistency report, fact-che
 
 #### 3b. Formatter
 **Role:** Book Formatter & Typesetter
-**Input:** `output/ghostwriter.md` + `output/developmental_editor.md`
-**Output:** `output/formatter.md`
+**Input:** `output/{project-name}/ghostwriter.md` + `output/{project-name}/developmental_editor.md`
+**Output:** `output/{project-name}/formatter.md`
 
 Read `@agents/formatter.md` for full instructions.
 
@@ -116,8 +116,8 @@ Deliver: Interior design spec, chapter layout template, Kindle CSS stylesheet, p
 
 #### 4. Kindle Compiler
 **Role:** Kindle Manuscript Compiler
-**Input:** ALL prior outputs (`output/niche_researcher.md`, `output/ghostwriter.md`, `output/developmental_editor.md`, `output/proofreader.md`, `output/cover_designer.md`, `output/formatter.md`, `output/marketing_specialist.md`)
-**Output:** `output/kindle_manuscript.docx` + `output/kindle_compiler.md`
+**Input:** ALL prior outputs (`output/{project-name}/niche_researcher.md`, `output/{project-name}/ghostwriter.md`, `output/{project-name}/developmental_editor.md`, `output/{project-name}/proofreader.md`, `output/{project-name}/cover_designer.md`, `output/{project-name}/formatter.md`, `output/{project-name}/marketing_specialist.md`)
+**Output:** `output/{project-name}/kindle_manuscript.docx` + `output/{project-name}/kindle_compiler.md`
 
 Read `@agents/kindle-compiler.md` for full instructions.
 
@@ -127,7 +127,7 @@ This phase is **interactive** — the compiler must ask the user for metadata (t
 
 ### Final: Combine Full Report
 
-After all agents complete, combine all outputs into a single `output/full_report.md` with these sections:
+After all agents complete, combine all outputs into a single `output/{project-name}/full_report.md` with these sections:
 
 1. **Executive Summary** — Book title, niche, target audience, and key metrics
 2. **Market Research** — From niche researcher

@@ -83,7 +83,6 @@ export ANTHROPIC_API_KEY="sk-ant-..."
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-npm install
 
 python main.py "stoicism for software engineers"
 ```
@@ -181,7 +180,6 @@ kindle-book-agency/
 ├── main.py                       # CLI entry point
 ├── run.sh                        # One-command runner (handles venv + deps)
 ├── requirements.txt              # Python dependencies
-├── package.json                  # Node.js dependencies (docx generation)
 ├── CLAUDE.md                     # Claude Code workflow instructions
 └── README.md
 ```
@@ -218,7 +216,7 @@ Not needed for Claude Code — it handles auth automatically.
 
 ## Output
 
-**Claude Code:** Each agent saves to `output/{agent_name}.md`. Final manuscript: `output/kindle_manuscript.docx`.
+**Claude Code:** Each agent saves to `output/{project-name}/{agent_name}.md`. Final manuscript: `output/{project-name}/kindle_manuscript.docx`.
 
 **CLI mode:** Each run creates a timestamped directory:
 

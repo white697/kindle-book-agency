@@ -63,7 +63,7 @@ class AgentResult:
 
 class BookWriterOrchestrator:
     """
-    Manages the lifecycle of all 7 agents.
+    Manages the lifecycle of all 8 agents plus chapter expansion.
     Resolves dependencies and maximizes parallel execution.
 
     Supports two auth methods:
@@ -76,6 +76,7 @@ class BookWriterOrchestrator:
         api_key: str = "",
         oauth_token: str = "",
         model: str = DEFAULT_MODEL,
+        chapter_model: str = "sonnet",
         verbose: bool = True,
         event_queue: Optional[asyncio.Queue] = None,
     ):
@@ -96,6 +97,8 @@ class BookWriterOrchestrator:
             self._auth_mode = "api_key"
 
         self.model = model
+        # write_chapters.py shells out to the `claude` CLI, which takes aliases/IDs
+        self.chapter_model = chapter_model
         self.verbose = verbose
         self.event_queue = event_queue
         self.results: dict[str, AgentResult] = {}
@@ -253,7 +256,7 @@ class BookWriterOrchestrator:
             results = await expand_chapters(
                 project_dir=run_dir,
                 concurrency=5,
-                model="sonnet",
+                model=self.chapter_model,
                 force=False,
             )
 

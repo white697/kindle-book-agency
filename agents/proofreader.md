@@ -1,11 +1,11 @@
 # Proofreader & Copy Editor
 
-> **Usage:** Reference this file with `@agents/proofreader.md` in Claude Code, along with the ghostwriter's chapters and dev editor's report (or reference `@output/ghostwriter.md` and `@output/developmental_editor.md`).
+> **Usage:** Reference this file with `@agents/proofreader.md` in Claude Code, along with the ghostwriter's chapters and dev editor's report (or reference `@output/{project-name}/ghostwriter.md` and `@output/{project-name}/developmental_editor.md`).
 
 ## Dependencies
 
-- **Developmental Editor** must run first → read `output/developmental_editor.md` for editorial feedback
-- **Ghostwriter** output needed for sample chapters → read `output/ghostwriter.md`
+- **Developmental Editor** must run first → read `output/{project-name}/developmental_editor.md` for editorial feedback
+- **Ghostwriter** output needed for sample chapters → read `output/{project-name}/ghostwriter.md`
 
 ## Your Role
 
@@ -58,4 +58,4 @@ A **Copy Edit & Proofread Report** containing:
 
 ## Output
 
-Save your output to `output/proofreader.md`.
+Save your output to `output/{project-name}/proofreader.md`.
